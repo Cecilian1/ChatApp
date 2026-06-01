@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网上沟通交流系统 - 主界面</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="im-container">
+    <aside class="nav-sidebar">
+        <div class="user-avatar-wrapper">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Felix" alt="头像" class="avatar">
+            <span class="status-dot online"></span>
+        </div>
+        <nav class="nav-menu">
+            <button class="nav-item active" title="聊天">💬</button>
+            <button class="nav-item" title="通讯录">👥</button>
+            <button class="nav-item" title="历史记录">⏳</button>
+        </nav>
+        <div class="nav-bottom">
+            <button class="nav-item" title="设置">⚙️</button>
+        </div>
+    </aside>
+
+    <section class="list-sidebar">
+        <div class="search-header">
+            <input type="text" placeholder="搜索好友/群聊..." class="search-input">
+            <button class="add-btn" title="添加好友/建群">+</button>
+        </div>
+        <div class="session-list">
+            <div class="session-item active">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Peter" alt="好友头像" class="avatar">
+                <div class="session-info">
+                    <div class="session-top">
+                        <span class="nickname">张三 (项目经理)</span>
+                        <span class="time">15:30</span>
+                    </div>
+                    <div class="session-bottom">
+                        <span class="last-msg">那个前端布局方案写好了吗？</span>
+                    </div>
+                </div>
+            </div>
+            <div class="session-item">
+                <div class="avatar-wrapper">
+                    <img src="https://api.dicebear.com/7.x/identicon/svg?seed=Group1" alt="群头像" class="avatar">
+                    <span class="badge">3</span>
+                </div>
+                <div class="session-info">
+                    <div class="session-top">
+                        <span class="nickname">前端开发技术交流群</span>
+                        <span class="time">14:22</span>
+                    </div>
+                    <div class="session-bottom">
+                        <span class="last-msg">李四：可以使用 MAUI Blazor。</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="chat-panel">
+        <header class="chat-header">
+            <div class="chat-title-box">
+                <span class="chat-title">张三 (项目经理)</span>
+                <span class="chat-status">手机在线</span>
+            </div>
+            <div class="chat-actions">
+                <button class="action-btn">🗑️ 删除好友</button>
+            </div>
+        </header>
+
+        <div class="message-container">
+            <div class="time-divider">对方在一小时前上线</div>
+
+            <div class="message-wrapper message-left">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Peter" alt="头像" class="avatar-sm">
+                <div class="message-content">
+                    <div class="msg-bubble">下午好，系统基本的原型图和功能点你都看过了吧？</div>
+                </div>
+            </div>
+
+            <div class="message-wrapper message-right">
+                <div class="message-content">
+                    <div class="msg-bubble">看过了，我正在编写 Web 端和桌面端共用的 HTML/CSS 基础布局结构。</div>
+                </div>
+                <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Felix" alt="头像" class="avatar-sm">
+            </div>
+
+            <div class="message-wrapper message-left">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Peter" alt="头像" class="avatar-sm">
+                <div class="message-content">
+                    <div class="file-card">
+                        <div class="file-icon">📄</div>
+                        <div class="file-info">
+                            <span class="file-name">网上沟通系统需求文档.pdf</span>
+                            <span class="file-size">2.4 MB</span>
+                            <div class="progress-bar"><div class="progress" style="width: 70%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="chat-footer">
+            <div class="toolbar">
+                <button class="tool-btn" title="表情">😀</button>
+                <button class="tool-btn" title="发送文件">📎</button>
+                <button class="tool-btn" title="代码块">&lt;/&gt;</button>
+            </div>
+            <div class="input-area">
+                <textarea placeholder="请输入消息内容... (Ctrl + Enter 发送)" class="chat-textarea"></textarea>
+                <button class="send-btn">发送(S)</button>
+            </div>
+        </footer>
+    </main>
+</div>
+
+</body>
+</html>

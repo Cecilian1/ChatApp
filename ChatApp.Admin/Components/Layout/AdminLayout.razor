@@ -1,0 +1,90 @@
+@inherits LayoutComponentBase
+@implements IDisposable
+
+@if (!Auth.IsLoggedIn)
+{
+    @Body
+}
+else
+{
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="sidebar-logo">
+                <span class="logo-icon">🛡️</span>
+                <span class="logo-text">IM 系统管理后台</span>
+            </div>
+            <nav class="sidebar-menu">
+                <NavLink class="menu-item" href="/review" Match="NavLinkMatch.All" ActiveClass="active">
+                    <span class="menu-icon">📝</span> 用户注册审核
+                    @if (PendingCount > 0)
+                    {
+                        <span class="menu-badge">@PendingCount</span>
+                    }
+                </NavLink>
+                <NavLink class="menu-item" href="/users" ActiveClass="active">
+                    <span class="menu-icon">👥</span> 用户账号管理
+                </NavLink>
+                <NavLink class="menu-item" href="/messages" ActiveClass="active">
+                    <span class="menu-icon">💬</span> 交流信息管理
+                </NavLink>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="admin-profile">
+                    <div class="admin-avatar">A</div>
+                    <span class="admin-name">超级管理员</span>
+                    <button class="logout-btn" @onclick="Logout">退出</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div class="breadcrumb">
+                    <span class="parent">首页</span> / <span class="current">@PageTitle</span>
+                </div>
+                <div class="system-time">系统状态：正常运行</div>
+            </header>
+            <div class="scroll-wrapper">
+                @Body
+            </div>
+        </main>
+    </div>
+}
+
+@code {
+    [Inject] private IAdminAuthService Auth { get; set; } = default!;
+    [Inject] private IAdminService AdminService { get; set; } = default!;
+    [Inject] private NavigationManager Nav { get; set; } = default!;
+
+    private int PendingCount { get; set; }
+    private string PageTitle => Nav.Uri switch
+    {
+        var u when u.Contains("/users") => "用户账号管理",
+        var u when u.Contains("/messages") => "交流信息管理",
+        _ => "用户注册审核"
+    };
+
+    protected override void OnInitialized()
+    {
+        RefreshPending();
+        Auth.OnChange += OnAuthChanged;
+    }
+
+    protected override void OnParametersSet() => RefreshPending();
+
+    private void RefreshPending() => PendingCount = AdminService.GetPendingCount();
+
+    private void OnAuthChanged()
+    {
+        RefreshPending();
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void Logout()
+    {
+        Auth.Logout();
+        Nav.NavigateTo("/login");
+    }
+
+    public void Dispose() => Auth.OnChange -= OnAuthChanged;
+}

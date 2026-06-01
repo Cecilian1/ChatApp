@@ -1,0 +1,132 @@
+@page "/messages"
+@layout AdminLayout
+@inject IAdminAuthService Auth
+@inject IAdminService AdminService
+@inject NavigationManager Nav
+
+<div class="content-card">
+    <div class="card-title-box">
+        <h3 class="card-title">交流信息监控与管理</h3>
+    </div>
+
+    <div class="filter-bar">
+        <div class="filter-item">
+            <label>发送人账号</label>
+            <input @bind="_sender" placeholder="输入账号..." />
+        </div>
+        <div class="filter-item">
+            <label>关键词</label>
+            <input @bind="_keyword" placeholder="输入消息关键字..." />
+        </div>
+        <div class="filter-item">
+            <label>时间范围</label>
+            <select @bind="_timeRange">
+                <option value="">全部</option>
+                <option value="today">今天</option>
+                <option value="3days">近3天</option>
+                <option value="week">近1周</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" style="height:35px;" @onclick="LoadData">🔍 查询数据</button>
+    </div>
+
+    <div class="batch-actions">
+        <button class="btn btn-danger-outline" @onclick="BatchDelete">⚠️ 批量删除选中记录</button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th width="40">
+                    <input type="checkbox" @onchange="ToggleAll" checked="@_allSelected" />
+                </th>
+                <th>发送者</th>
+                <th>接收者/群聊</th>
+                <th>消息内容摘要</th>
+                <th>发送时间</th>
+                <th class="text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (_messages.Count == 0)
+            {
+                <tr class="empty-row"><td colspan="6">暂无消息记录</td></tr>
+            }
+            @foreach (var m in _messages)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" checked="@_selected.Contains(m.Id)"
+                               @onchange="e => ToggleSelect(m.Id, (bool)e.Value!)" />
+                    </td>
+                    <td>@m.SenderName</td>
+                    <td>@(m.ReceiverName ?? "私聊")</td>
+                    <td>@(m.Type == MessageType.File ? $"[文件传输] {m.FileName}" : m.Content)</td>
+                    <td>@m.SentAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td class="text-center">
+                        <button class="btn btn-text-danger" @onclick="() => DeleteOne(m.Id)">删除</button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    private List<MessageDto> _messages = [];
+    private HashSet<string> _selected = [];
+    private bool _allSelected;
+    private string _sender = "";
+    private string _keyword = "";
+    private string _timeRange = "";
+
+    protected override void OnInitialized()
+    {
+        if (!Auth.IsLoggedIn)
+        {
+            Nav.NavigateTo("/login");
+            return;
+        }
+        LoadData();
+    }
+
+    private void LoadData()
+    {
+        _messages = AdminService.QueryMessages(new MessageQueryFilter
+        {
+            SenderUsername = _sender,
+            Keyword = _keyword,
+            TimeRange = _timeRange
+        });
+        _selected.Clear();
+        _allSelected = false;
+    }
+
+    private void ToggleSelect(string id, bool selected)
+    {
+        if (selected) _selected.Add(id);
+        else _selected.Remove(id);
+        _allSelected = _selected.Count == _messages.Count && _messages.Count > 0;
+    }
+
+    private void ToggleAll(ChangeEventArgs e)
+    {
+        _allSelected = (bool)e.Value!;
+        _selected = _allSelected ? _messages.Select(m => m.Id).ToHashSet() : [];
+    }
+
+    private void DeleteOne(string id)
+    {
+        if (AdminService.DeleteMessage(id))
+            LoadData();
+    }
+
+    private void BatchDelete()
+    {
+        if (_selected.Count == 0) return;
+        if (AdminService.DeleteMessages(_selected))
+            LoadData();
+    }
+}

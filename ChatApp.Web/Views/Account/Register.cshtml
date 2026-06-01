@@ -1,0 +1,50 @@
+@model ChatApp.Shared.Models.RegisterRequestDto
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>注册 - 网上沟通交流系统</title>
+    <link rel="stylesheet" href="~/css/user.css" />
+</head>
+<body class="auth-page">
+<div class="auth-card">
+    <h1 class="auth-title">注册申请</h1>
+    <p class="auth-subtitle">提交后需等待管理员审核通过</p>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-error">@ViewBag.Error</div>
+    }
+    @if (ViewBag.Success != null)
+    {
+        <div class="alert alert-success">@ViewBag.Success</div>
+    }
+
+    <form method="post" asp-action="Register">
+        <div class="form-group">
+            <label>账号</label>
+            <input asp-for="Username" placeholder="请输入账号" required />
+        </div>
+        <div class="form-group">
+            <label>密码</label>
+            <input asp-for="Password" type="password" placeholder="请输入密码" required />
+        </div>
+        <div class="form-group">
+            <label>昵称</label>
+            <input asp-for="Nickname" placeholder="请输入昵称" required />
+        </div>
+        <div class="form-group">
+            <label>备注/申请原因</label>
+            <textarea asp-for="Remark" rows="3" placeholder="请简要说明注册用途"></textarea>
+        </div>
+        <button type="submit" class="auth-btn">提交申请</button>
+    </form>
+
+    <p class="auth-link">已有账号？<a asp-action="Login">返回登录</a></p>
+</div>
+</body>
+</html>

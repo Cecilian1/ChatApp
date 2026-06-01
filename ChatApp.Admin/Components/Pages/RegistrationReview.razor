@@ -1,0 +1,72 @@
+@page "/review"
+@layout AdminLayout
+@inject IAdminAuthService Auth
+@inject IAdminService AdminService
+@inject NavigationManager Nav
+
+<div class="content-card">
+    <div class="card-title-box">
+        <h3 class="card-title">待审核用户申请</h3>
+        <span class="card-subtitle">当前共有 @_pending.Count 条未处理的注册申请</span>
+    </div>
+    <div class="table-responsive">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>申请人账号</th>
+                <th>昵称</th>
+                <th>申请时间</th>
+                <th>备注/填报原因</th>
+                <th class="text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (_pending.Count == 0)
+            {
+                <tr class="empty-row"><td colspan="5">暂无待审核申请</td></tr>
+            }
+            @foreach (var u in _pending)
+            {
+                <tr>
+                    <td><strong>@u.Username</strong></td>
+                    <td>@u.Nickname</td>
+                    <td>@u.RegisteredAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@(u.Remark ?? "-")</td>
+                    <td class="text-center">
+                        <button class="btn btn-success" @onclick="() => Approve(u.Id)">通过</button>
+                        <button class="btn btn-danger" @onclick="() => Reject(u.Id)">拒绝</button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    private List<UserDto> _pending = [];
+
+    protected override void OnInitialized()
+    {
+        if (!Auth.IsLoggedIn)
+        {
+            Nav.NavigateTo("/login");
+            return;
+        }
+        LoadData();
+    }
+
+    private void LoadData() => _pending = AdminService.GetPendingRegistrations();
+
+    private void Approve(string userId)
+    {
+        if (AdminService.ApproveRegistration(userId))
+            LoadData();
+    }
+
+    private void Reject(string userId)
+    {
+        if (AdminService.RejectRegistration(userId))
+            LoadData();
+    }
+}

@@ -1,0 +1,10 @@
+﻿<Router AppAssembly="@typeof(MauiProgram).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.AdminLayout)" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(Layout.AdminLayout)">
+            <p style="padding:24px;color:#666;">页面不存在，<a href="/login">返回登录</a></p>
+        </LayoutView>
+    </NotFound>
+</Router>

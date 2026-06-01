@@ -1,0 +1,2402 @@
+{
+  "Version": 1,
+  "Hash": "e1R20BQz9BWyysme1ld5vXm1UuSwygtfpLKlON/I6Ao=",
+  "Source": "ChatApp.Admin",
+  "BasePath": "/",
+  "Mode": "Root",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "ChatApp.Admin\\wwwroot",
+      "Source": "ChatApp.Admin",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\",
+      "BasePath": "/",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\9y79rxrv0g-eu7s2xcwdj.gz",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Computed",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\",
+      "BasePath": "/",
+      "RelativePath": "ChatApp.Admin#[.{fingerprint=eu7s2xcwdj}]?.styles.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "CurrentProject",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\bundle\\ChatApp.Admin.styles.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "4djhejxcsi",
+      "Integrity": "SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\bundle\\ChatApp.Admin.styles.css"
+    },
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\eastdm2t6d-8inm30yfxf.gz",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\",
+      "BasePath": "/",
+      "RelativePath": "css/bootstrap/bootstrap.min.css#[.{fingerprint=8inm30yfxf}]?.map.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "m532s4naxw",
+      "Integrity": "epiz+IkftKdCVrNwM3M3b4/Co3mxoqDpjOfMrHfv/7E=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\f03khmlfjx-e5tk7yf482.gz",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\",
+      "BasePath": "/",
+      "RelativePath": "css/app#[.{fingerprint=e5tk7yf482}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\app.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "qfor6zdeny",
+      "Integrity": "ismDfJHkNHfoqxdRjvM7D0cvQOeIn31cbNUC6dB4m9A=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\app.css"
+    },
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\kogsuyqon1-eu7s2xcwdj.gz",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Computed",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\",
+      "BasePath": "/",
+      "RelativePath": "ChatApp.Admin#[.{fingerprint=eu7s2xcwdj}]!.bundle.scp.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "Reference",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\projectbundle\\ChatApp.Admin.bundle.scp.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "4djhejxcsi",
+      "Integrity": "SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\projectbundle\\ChatApp.Admin.bundle.scp.css"
+    },
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\mr7k9wikgt-ccs8cwjyn1.gz",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\",
+      "BasePath": "/",
+      "RelativePath": "index#[.{fingerprint=ccs8cwjyn1}]?.html.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\index.html",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "7vsuvyokyx",
+      "Integrity": "XUtZzh/MCXnJh1Rx50YaUgnbEBPbhcpwHeOoD7EGY+Y=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\index.html"
+    },
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\uinozstnpx-6gzpyzhau4.gz",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\",
+      "BasePath": "/",
+      "RelativePath": "css/bootstrap/bootstrap.min#[.{fingerprint=6gzpyzhau4}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "7l51xal3e9",
+      "Integrity": "dfRdV3FWJNHUyN/ZTK8eRHslFtdOjQxpi1BEcWXtMR8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\vw0acuhbgo-0q8fs93dfs.gz",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\",
+      "BasePath": "/",
+      "RelativePath": "css/admin#[.{fingerprint=0q8fs93dfs}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\admin.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "g0lf7fzeq1",
+      "Integrity": "IMvS0mKl4OR0j9gxN7GZXhbGvHNC/wjx4V97VycF64I=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\admin.css"
+    },
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\bundle\\ChatApp.Admin.styles.css",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Computed",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\bundle\\",
+      "BasePath": "/",
+      "RelativePath": "ChatApp.Admin#[.{fingerprint}]?.styles.css",
+      "AssetKind": "All",
+      "AssetMode": "CurrentProject",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ApplicationBundle",
+      "Fingerprint": "eu7s2xcwdj",
+      "Integrity": "SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\bundle\\ChatApp.Admin.styles.css"
+    },
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\projectbundle\\ChatApp.Admin.bundle.scp.css",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Computed",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\projectbundle\\",
+      "BasePath": "/",
+      "RelativePath": "ChatApp.Admin#[.{fingerprint}]!.bundle.scp.css",
+      "AssetKind": "All",
+      "AssetMode": "Reference",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ProjectBundle",
+      "Fingerprint": "eu7s2xcwdj",
+      "Integrity": "SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\projectbundle\\ChatApp.Admin.bundle.scp.css"
+    },
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\admin.css",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "css/admin#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "0q8fs93dfs",
+      "Integrity": "6KmteZ68j1pSgj6Lpc7XI7AE7U7kw1JxYu3H0XT3nBw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\admin.css"
+    },
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\app.css",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "css/app#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "e5tk7yf482",
+      "Integrity": "bhCZyC/yM2+DaFXr8z25+5MeWfXWqMJNNA4ZLAXbjjU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\app.css"
+    },
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "css/bootstrap/bootstrap.min#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "6gzpyzhau4",
+      "Integrity": "SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "css/bootstrap/bootstrap.min.css#[.{fingerprint}]?.map",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "8inm30yfxf",
+      "Integrity": "gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Identity": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\index.html",
+      "SourceId": "ChatApp.Admin",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "index#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ccs8cwjyn1",
+      "Integrity": "hAK0sI42rNW1Y/aPxuL6S93w4ybNLq1eRdZrP2WoSsk=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "ChatApp.Admin.bundle.scp.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\kogsuyqon1-eu7s2xcwdj.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000613496933"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1629"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 16:15:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo="
+        }
+      ]
+    },
+    {
+      "Route": "ChatApp.Admin.bundle.scp.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\projectbundle\\ChatApp.Admin.bundle.scp.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5481"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 16:15:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo="
+        }
+      ]
+    },
+    {
+      "Route": "ChatApp.Admin.bundle.scp.css.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\kogsuyqon1-eu7s2xcwdj.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1629"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 16:15:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw="
+        }
+      ]
+    },
+    {
+      "Route": "ChatApp.Admin.eu7s2xcwdj.bundle.scp.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\kogsuyqon1-eu7s2xcwdj.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000613496933"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1629"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 16:15:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "eu7s2xcwdj"
+        },
+        {
+          "Name": "label",
+          "Value": "ChatApp.Admin.bundle.scp.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo="
+        }
+      ]
+    },
+    {
+      "Route": "ChatApp.Admin.eu7s2xcwdj.bundle.scp.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\projectbundle\\ChatApp.Admin.bundle.scp.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5481"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 16:15:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "eu7s2xcwdj"
+        },
+        {
+          "Name": "label",
+          "Value": "ChatApp.Admin.bundle.scp.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo="
+        }
+      ]
+    },
+    {
+      "Route": "ChatApp.Admin.eu7s2xcwdj.bundle.scp.css.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\kogsuyqon1-eu7s2xcwdj.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1629"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 16:15:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "eu7s2xcwdj"
+        },
+        {
+          "Name": "label",
+          "Value": "ChatApp.Admin.bundle.scp.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw="
+        }
+      ]
+    },
+    {
+      "Route": "ChatApp.Admin.eu7s2xcwdj.styles.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\9y79rxrv0g-eu7s2xcwdj.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000613496933"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1629"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 16:15:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "eu7s2xcwdj"
+        },
+        {
+          "Name": "label",
+          "Value": "ChatApp.Admin.styles.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo="
+        }
+      ]
+    },
+    {
+      "Route": "ChatApp.Admin.eu7s2xcwdj.styles.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\bundle\\ChatApp.Admin.styles.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5481"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 16:15:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "eu7s2xcwdj"
+        },
+        {
+          "Name": "label",
+          "Value": "ChatApp.Admin.styles.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo="
+        }
+      ]
+    },
+    {
+      "Route": "ChatApp.Admin.eu7s2xcwdj.styles.css.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\9y79rxrv0g-eu7s2xcwdj.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1629"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 16:15:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "eu7s2xcwdj"
+        },
+        {
+          "Name": "label",
+          "Value": "ChatApp.Admin.styles.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw="
+        }
+      ]
+    },
+    {
+      "Route": "ChatApp.Admin.styles.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\9y79rxrv0g-eu7s2xcwdj.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000613496933"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1629"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 16:15:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo="
+        }
+      ]
+    },
+    {
+      "Route": "ChatApp.Admin.styles.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\bundle\\ChatApp.Admin.styles.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5481"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 16:15:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SsMzTNTT7Oe3whjVzaU/zytv7HYX8b/1cBogGpgZxwo="
+        }
+      ]
+    },
+    {
+      "Route": "ChatApp.Admin.styles.css.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\9y79rxrv0g-eu7s2xcwdj.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1629"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 16:15:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SIatZVY0sOBd1BE5wN9vqNbPhJGVgpJPl4iir0yv0Sw="
+        }
+      ]
+    },
+    {
+      "Route": "css/admin.0q8fs93dfs.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\vw0acuhbgo-0q8fs93dfs.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000529100529"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1889"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IMvS0mKl4OR0j9gxN7GZXhbGvHNC/wjx4V97VycF64I=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:52:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"6KmteZ68j1pSgj6Lpc7XI7AE7U7kw1JxYu3H0XT3nBw=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0q8fs93dfs"
+        },
+        {
+          "Name": "label",
+          "Value": "css/admin.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-6KmteZ68j1pSgj6Lpc7XI7AE7U7kw1JxYu3H0XT3nBw="
+        }
+      ]
+    },
+    {
+      "Route": "css/admin.0q8fs93dfs.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\admin.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "7393"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"6KmteZ68j1pSgj6Lpc7XI7AE7U7kw1JxYu3H0XT3nBw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:52:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0q8fs93dfs"
+        },
+        {
+          "Name": "label",
+          "Value": "css/admin.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-6KmteZ68j1pSgj6Lpc7XI7AE7U7kw1JxYu3H0XT3nBw="
+        }
+      ]
+    },
+    {
+      "Route": "css/admin.0q8fs93dfs.css.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\vw0acuhbgo-0q8fs93dfs.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1889"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IMvS0mKl4OR0j9gxN7GZXhbGvHNC/wjx4V97VycF64I=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:52:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0q8fs93dfs"
+        },
+        {
+          "Name": "label",
+          "Value": "css/admin.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-IMvS0mKl4OR0j9gxN7GZXhbGvHNC/wjx4V97VycF64I="
+        }
+      ]
+    },
+    {
+      "Route": "css/admin.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\vw0acuhbgo-0q8fs93dfs.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000529100529"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1889"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IMvS0mKl4OR0j9gxN7GZXhbGvHNC/wjx4V97VycF64I=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:52:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"6KmteZ68j1pSgj6Lpc7XI7AE7U7kw1JxYu3H0XT3nBw=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-6KmteZ68j1pSgj6Lpc7XI7AE7U7kw1JxYu3H0XT3nBw="
+        }
+      ]
+    },
+    {
+      "Route": "css/admin.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\admin.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "7393"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"6KmteZ68j1pSgj6Lpc7XI7AE7U7kw1JxYu3H0XT3nBw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:52:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-6KmteZ68j1pSgj6Lpc7XI7AE7U7kw1JxYu3H0XT3nBw="
+        }
+      ]
+    },
+    {
+      "Route": "css/admin.css.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\vw0acuhbgo-0q8fs93dfs.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1889"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IMvS0mKl4OR0j9gxN7GZXhbGvHNC/wjx4V97VycF64I=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:52:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-IMvS0mKl4OR0j9gxN7GZXhbGvHNC/wjx4V97VycF64I="
+        }
+      ]
+    },
+    {
+      "Route": "css/app.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\f03khmlfjx-e5tk7yf482.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000556173526"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1797"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ismDfJHkNHfoqxdRjvM7D0cvQOeIn31cbNUC6dB4m9A=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"bhCZyC/yM2+DaFXr8z25+5MeWfXWqMJNNA4ZLAXbjjU=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-bhCZyC/yM2+DaFXr8z25+5MeWfXWqMJNNA4ZLAXbjjU="
+        }
+      ]
+    },
+    {
+      "Route": "css/app.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\app.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3376"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bhCZyC/yM2+DaFXr8z25+5MeWfXWqMJNNA4ZLAXbjjU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-bhCZyC/yM2+DaFXr8z25+5MeWfXWqMJNNA4ZLAXbjjU="
+        }
+      ]
+    },
+    {
+      "Route": "css/app.css.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\f03khmlfjx-e5tk7yf482.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1797"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ismDfJHkNHfoqxdRjvM7D0cvQOeIn31cbNUC6dB4m9A=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ismDfJHkNHfoqxdRjvM7D0cvQOeIn31cbNUC6dB4m9A="
+        }
+      ]
+    },
+    {
+      "Route": "css/app.e5tk7yf482.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\f03khmlfjx-e5tk7yf482.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000556173526"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1797"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ismDfJHkNHfoqxdRjvM7D0cvQOeIn31cbNUC6dB4m9A=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"bhCZyC/yM2+DaFXr8z25+5MeWfXWqMJNNA4ZLAXbjjU=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "e5tk7yf482"
+        },
+        {
+          "Name": "label",
+          "Value": "css/app.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-bhCZyC/yM2+DaFXr8z25+5MeWfXWqMJNNA4ZLAXbjjU="
+        }
+      ]
+    },
+    {
+      "Route": "css/app.e5tk7yf482.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\app.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3376"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bhCZyC/yM2+DaFXr8z25+5MeWfXWqMJNNA4ZLAXbjjU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "e5tk7yf482"
+        },
+        {
+          "Name": "label",
+          "Value": "css/app.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-bhCZyC/yM2+DaFXr8z25+5MeWfXWqMJNNA4ZLAXbjjU="
+        }
+      ]
+    },
+    {
+      "Route": "css/app.e5tk7yf482.css.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\f03khmlfjx-e5tk7yf482.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1797"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ismDfJHkNHfoqxdRjvM7D0cvQOeIn31cbNUC6dB4m9A=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "e5tk7yf482"
+        },
+        {
+          "Name": "label",
+          "Value": "css/app.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ismDfJHkNHfoqxdRjvM7D0cvQOeIn31cbNUC6dB4m9A="
+        }
+      ]
+    },
+    {
+      "Route": "css/bootstrap/bootstrap.min.6gzpyzhau4.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\uinozstnpx-6gzpyzhau4.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000041912905"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "23858"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dfRdV3FWJNHUyN/ZTK8eRHslFtdOjQxpi1BEcWXtMR8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6gzpyzhau4"
+        },
+        {
+          "Name": "label",
+          "Value": "css/bootstrap/bootstrap.min.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0="
+        }
+      ]
+    },
+    {
+      "Route": "css/bootstrap/bootstrap.min.6gzpyzhau4.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "162726"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6gzpyzhau4"
+        },
+        {
+          "Name": "label",
+          "Value": "css/bootstrap/bootstrap.min.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0="
+        }
+      ]
+    },
+    {
+      "Route": "css/bootstrap/bootstrap.min.6gzpyzhau4.css.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\uinozstnpx-6gzpyzhau4.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "23858"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dfRdV3FWJNHUyN/ZTK8eRHslFtdOjQxpi1BEcWXtMR8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6gzpyzhau4"
+        },
+        {
+          "Name": "label",
+          "Value": "css/bootstrap/bootstrap.min.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-dfRdV3FWJNHUyN/ZTK8eRHslFtdOjQxpi1BEcWXtMR8="
+        }
+      ]
+    },
+    {
+      "Route": "css/bootstrap/bootstrap.min.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\uinozstnpx-6gzpyzhau4.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000041912905"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "23858"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dfRdV3FWJNHUyN/ZTK8eRHslFtdOjQxpi1BEcWXtMR8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0="
+        }
+      ]
+    },
+    {
+      "Route": "css/bootstrap/bootstrap.min.css",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "162726"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0="
+        }
+      ]
+    },
+    {
+      "Route": "css/bootstrap/bootstrap.min.css.8inm30yfxf.map",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\eastdm2t6d-8inm30yfxf.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000013397104"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "74642"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"epiz+IkftKdCVrNwM3M3b4/Co3mxoqDpjOfMrHfv/7E=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8inm30yfxf"
+        },
+        {
+          "Name": "label",
+          "Value": "css/bootstrap/bootstrap.min.css.map"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ="
+        }
+      ]
+    },
+    {
+      "Route": "css/bootstrap/bootstrap.min.css.8inm30yfxf.map",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "449111"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8inm30yfxf"
+        },
+        {
+          "Name": "label",
+          "Value": "css/bootstrap/bootstrap.min.css.map"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ="
+        }
+      ]
+    },
+    {
+      "Route": "css/bootstrap/bootstrap.min.css.8inm30yfxf.map.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\eastdm2t6d-8inm30yfxf.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "74642"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"epiz+IkftKdCVrNwM3M3b4/Co3mxoqDpjOfMrHfv/7E=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8inm30yfxf"
+        },
+        {
+          "Name": "label",
+          "Value": "css/bootstrap/bootstrap.min.css.map.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-epiz+IkftKdCVrNwM3M3b4/Co3mxoqDpjOfMrHfv/7E="
+        }
+      ]
+    },
+    {
+      "Route": "css/bootstrap/bootstrap.min.css.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\uinozstnpx-6gzpyzhau4.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "23858"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dfRdV3FWJNHUyN/ZTK8eRHslFtdOjQxpi1BEcWXtMR8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-dfRdV3FWJNHUyN/ZTK8eRHslFtdOjQxpi1BEcWXtMR8="
+        }
+      ]
+    },
+    {
+      "Route": "css/bootstrap/bootstrap.min.css.map",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\eastdm2t6d-8inm30yfxf.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000013397104"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "74642"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"epiz+IkftKdCVrNwM3M3b4/Co3mxoqDpjOfMrHfv/7E=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ="
+        }
+      ]
+    },
+    {
+      "Route": "css/bootstrap/bootstrap.min.css.map",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "449111"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ="
+        }
+      ]
+    },
+    {
+      "Route": "css/bootstrap/bootstrap.min.css.map.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\eastdm2t6d-8inm30yfxf.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "74642"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"epiz+IkftKdCVrNwM3M3b4/Co3mxoqDpjOfMrHfv/7E=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:50:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-epiz+IkftKdCVrNwM3M3b4/Co3mxoqDpjOfMrHfv/7E="
+        }
+      ]
+    },
+    {
+      "Route": "index.ccs8cwjyn1.html",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\mr7k9wikgt-ccs8cwjyn1.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.002100840336"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "475"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"XUtZzh/MCXnJh1Rx50YaUgnbEBPbhcpwHeOoD7EGY+Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:52:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"hAK0sI42rNW1Y/aPxuL6S93w4ybNLq1eRdZrP2WoSsk=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ccs8cwjyn1"
+        },
+        {
+          "Name": "label",
+          "Value": "index.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-hAK0sI42rNW1Y/aPxuL6S93w4ybNLq1eRdZrP2WoSsk="
+        }
+      ]
+    },
+    {
+      "Route": "index.ccs8cwjyn1.html",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "728"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"hAK0sI42rNW1Y/aPxuL6S93w4ybNLq1eRdZrP2WoSsk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:52:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ccs8cwjyn1"
+        },
+        {
+          "Name": "label",
+          "Value": "index.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-hAK0sI42rNW1Y/aPxuL6S93w4ybNLq1eRdZrP2WoSsk="
+        }
+      ]
+    },
+    {
+      "Route": "index.ccs8cwjyn1.html.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\mr7k9wikgt-ccs8cwjyn1.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "475"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"XUtZzh/MCXnJh1Rx50YaUgnbEBPbhcpwHeOoD7EGY+Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:52:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ccs8cwjyn1"
+        },
+        {
+          "Name": "label",
+          "Value": "index.html.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-XUtZzh/MCXnJh1Rx50YaUgnbEBPbhcpwHeOoD7EGY+Y="
+        }
+      ]
+    },
+    {
+      "Route": "index.html",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\mr7k9wikgt-ccs8cwjyn1.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.002100840336"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "475"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"XUtZzh/MCXnJh1Rx50YaUgnbEBPbhcpwHeOoD7EGY+Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:52:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"hAK0sI42rNW1Y/aPxuL6S93w4ybNLq1eRdZrP2WoSsk=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-hAK0sI42rNW1Y/aPxuL6S93w4ybNLq1eRdZrP2WoSsk="
+        }
+      ]
+    },
+    {
+      "Route": "index.html",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "728"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"hAK0sI42rNW1Y/aPxuL6S93w4ybNLq1eRdZrP2WoSsk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:52:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-hAK0sI42rNW1Y/aPxuL6S93w4ybNLq1eRdZrP2WoSsk="
+        }
+      ]
+    },
+    {
+      "Route": "index.html.gz",
+      "AssetFile": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\compressed\\mr7k9wikgt-ccs8cwjyn1.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "475"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"XUtZzh/MCXnJh1Rx50YaUgnbEBPbhcpwHeOoD7EGY+Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 01 Jun 2026 13:52:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-XUtZzh/MCXnJh1Rx50YaUgnbEBPbhcpwHeOoD7EGY+Y="
+        }
+      ]
+    }
+  ]
+}

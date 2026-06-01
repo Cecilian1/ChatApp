@@ -1,0 +1,115 @@
+@page "/users"
+@layout AdminLayout
+@inject IAdminAuthService Auth
+@inject IAdminService AdminService
+@inject NavigationManager Nav
+
+<div class="content-card">
+    <div class="card-title-box">
+        <h3 class="card-title">用户账号管理</h3>
+        <span class="card-subtitle">管理已注册用户的账号状态</span>
+    </div>
+
+    <div class="filter-bar">
+        <div class="filter-item">
+            <label>账号/昵称</label>
+            <input @bind="_keyword" placeholder="输入关键字..." />
+        </div>
+        <div class="filter-item">
+            <label>状态</label>
+            <select @bind="_statusFilter">
+                <option value="">全部</option>
+                <option value="Active">正常</option>
+                <option value="Banned">已禁用</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" style="height:35px;" @onclick="LoadData">🔍 查询</button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>账号</th>
+                <th>昵称</th>
+                <th>状态</th>
+                <th>注册时间</th>
+                <th class="text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (_users.Count == 0)
+            {
+                <tr class="empty-row"><td colspan="5">暂无用户数据</td></tr>
+            }
+            @foreach (var u in _users)
+            {
+                <tr>
+                    <td><strong>@u.Username</strong></td>
+                    <td>@u.Nickname</td>
+                    <td>
+                        @if (u.Status == UserStatus.Active)
+                        {
+                            <span class="status-tag status-active">正常</span>
+                        }
+                        else if (u.Status == UserStatus.Banned)
+                        {
+                            <span class="status-tag status-banned">已禁用</span>
+                        }
+                    </td>
+                    <td>@u.RegisteredAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td class="text-center">
+                        @if (u.Status == UserStatus.Active)
+                        {
+                            <button class="btn btn-danger" @onclick="() => Ban(u.Id)">禁用</button>
+                        }
+                        else if (u.Status == UserStatus.Banned)
+                        {
+                            <button class="btn btn-success" @onclick="() => Unban(u.Id)">解禁</button>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    private List<UserDto> _users = [];
+    private string _keyword = "";
+    private string _statusFilter = "";
+
+    protected override void OnInitialized()
+    {
+        if (!Auth.IsLoggedIn)
+        {
+            Nav.NavigateTo("/login");
+            return;
+        }
+        LoadData();
+    }
+
+    private void LoadData()
+    {
+        UserStatus? status = _statusFilter switch
+        {
+            "Active" => UserStatus.Active,
+            "Banned" => UserStatus.Banned,
+            _ => null
+        };
+        _users = AdminService.GetAllUsers(_keyword, status);
+    }
+
+    private void Ban(string userId)
+    {
+        if (AdminService.BanUser(userId))
+            LoadData();
+    }
+
+    private void Unban(string userId)
+    {
+        if (AdminService.UnbanUser(userId))
+            LoadData();
+    }
+}

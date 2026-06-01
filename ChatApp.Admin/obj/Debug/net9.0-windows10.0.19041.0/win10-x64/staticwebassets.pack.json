@@ -1,0 +1,49 @@
+{
+  "Files": [
+    {
+      "Id": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\obj\\Debug\\net9.0-windows10.0.19041.0\\win10-x64\\scopedcss\\bundle\\ChatApp.Admin.styles.css",
+      "PackagePath": "staticwebassets\\ChatApp.Admin.styles.css"
+    },
+    {
+      "Id": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\admin.css",
+      "PackagePath": "staticwebassets\\css\\admin.css"
+    },
+    {
+      "Id": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "E:\\files\\code_rider\\ChatApp\\ChatApp.Admin\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.ChatApp.Admin.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.ChatApp.Admin.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.build.ChatApp.Admin.props",
+      "PackagePath": "build\\ChatApp.Admin.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.buildMultiTargeting.ChatApp.Admin.props",
+      "PackagePath": "buildMultiTargeting\\ChatApp.Admin.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.buildTransitive.ChatApp.Admin.props",
+      "PackagePath": "buildTransitive\\ChatApp.Admin.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

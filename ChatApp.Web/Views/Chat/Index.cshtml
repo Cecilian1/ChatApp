@@ -1,0 +1,247 @@
+@{
+    Layout = null;
+    var user = ViewBag.CurrentUser as ChatApp.Shared.Models.UserDto;
+    var sessions = ViewBag.Sessions as List<ChatApp.Shared.Models.ChatSessionDto> ?? [];
+    var friends = ViewBag.Friends as List<ChatApp.Shared.Models.FriendDto> ?? [];
+    var pendingRequests = ViewBag.PendingRequests as List<ChatApp.Shared.Models.FriendRequestDto> ?? [];
+    var messages = ViewBag.Messages as List<ChatApp.Shared.Models.MessageDto> ?? [];
+    var activeSession = ViewBag.ActiveSession as ChatApp.Shared.Models.ChatSessionDto;
+    var activeSessionId = ViewBag.ActiveSessionId as string ?? "";
+}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>网上沟通交流系统</title>
+    <link rel="stylesheet" href="~/css/user.css" />
+</head>
+<body>
+<div class="im-container" id="im-app"
+     data-user-id="@user!.Id"
+     data-user-seed="@user.AvatarSeed"
+     data-active-session="@activeSessionId">
+
+    <aside class="nav-sidebar">
+        <div class="user-avatar-wrapper" title="@user.Nickname">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=@user.AvatarSeed" alt="头像" class="avatar" />
+            <span class="status-dot online"></span>
+        </div>
+        <nav class="nav-menu">
+            <button class="nav-item active" data-tab="chat" title="聊天">💬</button>
+            <button class="nav-item" data-tab="contacts" title="通讯录">👥</button>
+            <button class="nav-item" data-tab="history" title="历史记录">⏳</button>
+        </nav>
+        <div class="nav-bottom">
+            <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                <button type="submit" class="nav-item" title="退出">⚙️</button>
+            </form>
+        </div>
+    </aside>
+
+    <section class="list-sidebar">
+        <div id="panel-chat" class="list-panel active">
+            <div class="search-header">
+                <input type="text" placeholder="搜索好友/群聊..." class="search-input" id="session-search" />
+                <button class="add-btn" id="btn-open-add" title="添加好友/建群">+</button>
+            </div>
+            <div class="session-list" id="session-list">
+                @foreach (var s in sessions)
+                {
+                    <div class="session-item @(s.Id == activeSessionId ? "active" : "")"
+                         data-session-id="@s.Id"
+                         data-session-type="@s.Type"
+                         data-target-user-id="@s.TargetUserId"
+                         data-title="@s.Title"
+                         data-status="@s.OnlineStatus">
+                        @if (s.UnreadCount > 0)
+                        {
+                            <div class="avatar-wrapper">
+                                <img src="https://api.dicebear.com/7.x/@(s.Type == ChatApp.Shared.Enums.SessionType.Group ? "identicon" : "bottts")/svg?seed=@s.AvatarSeed" alt="" class="avatar" />
+                                <span class="badge">@s.UnreadCount</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <img src="https://api.dicebear.com/7.x/@(s.Type == ChatApp.Shared.Enums.SessionType.Group ? "identicon" : "bottts")/svg?seed=@s.AvatarSeed" alt="" class="avatar" />
+                        }
+                        <div class="session-info">
+                            <div class="session-top">
+                                <span class="nickname">@s.Title</span>
+                                <span class="time">@(s.LastMessageTime?.ToString("HH:mm") ?? "")</span>
+                            </div>
+                            <div class="session-bottom">
+                                <span class="last-msg">@s.LastMessage</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div id="panel-contacts" class="list-panel">
+            <div class="search-header">
+                <input type="text" placeholder="搜索好友..." class="search-input" id="contact-search" />
+            </div>
+            <div class="contact-list" id="contact-list">
+                @foreach (var f in friends)
+                {
+                    <div class="contact-item" data-friend-id="@f.UserId">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=@f.AvatarSeed" alt="" class="avatar" />
+                        <div class="contact-info">
+                            <div class="contact-top">
+                                <span class="nickname">@f.Nickname</span>
+                                <span class="time">@f.OnlineStatus</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div id="panel-history" class="list-panel">
+            <div class="history-filter">
+                <input type="text" id="history-keyword" placeholder="关键词..." />
+                <select id="history-range">
+                    <option value="">全部</option>
+                    <option value="today">今天</option>
+                    <option value="3days">近3天</option>
+                    <option value="week">近1周</option>
+                </select>
+                <button class="btn-sm btn-sm-primary" id="btn-history-search">查询</button>
+            </div>
+            <div class="history-list" id="history-list"></div>
+        </div>
+    </section>
+
+    <section class="main-panel">
+        <div id="view-chat" class="main-view active chat-panel">
+            <header class="chat-header" id="chat-header" style="@(activeSession == null ? "display:none" : "")">
+                <div class="chat-title-box">
+                    <span class="chat-title" id="chat-title">@(activeSession?.Title ?? "")</span>
+                    <span class="chat-status" id="chat-status">@(activeSession?.OnlineStatus ?? "")</span>
+                </div>
+                <div class="chat-actions">
+                    <button class="action-btn hidden" id="btn-delete-friend">🗑️ 删除好友</button>
+                </div>
+            </header>
+
+            <div class="message-container" id="message-container">
+                @if (activeSession == null)
+                {
+                    <div class="empty-state" id="chat-empty">
+                        <span class="empty-state-icon">💬</span>
+                        <span>选择一个会话开始聊天</span>
+                    </div>
+                }
+                else
+                {
+                    foreach (var m in messages)
+                    {
+                        @await Html.PartialAsync("_MessageBubble", m)
+                    }
+                }
+            </div>
+
+            <footer class="chat-footer" id="chat-footer" style="@(activeSession == null ? "display:none" : "")">
+                <div class="toolbar">
+                    <button class="tool-btn" title="表情">😀</button>
+                    <button class="tool-btn" id="btn-file" title="发送文件">📎</button>
+                    <input type="file" id="file-input" class="hidden" />
+                </div>
+                <div class="input-area">
+                    <textarea placeholder="请输入消息内容... (Ctrl + Enter 发送)" class="chat-textarea" id="chat-input"></textarea>
+                    <button class="send-btn" id="btn-send">发送(S)</button>
+                </div>
+            </footer>
+        </div>
+
+        <div id="view-contacts" class="main-view contacts-panel">
+            <div class="panel-header">好友申请</div>
+            <div id="request-list">
+                @if (pendingRequests.Count == 0)
+                {
+                    <div class="empty-state"><span>暂无待处理的好友申请</span></div>
+                }
+                @foreach (var r in pendingRequests)
+                {
+                    <div class="request-card" data-request-id="@r.Id">
+                        <span><strong>@r.FromNickname</strong> (@r.FromUsername) 请求添加您为好友</span>
+                        <div class="request-actions">
+                            <button class="btn-sm btn-sm-primary btn-accept">同意</button>
+                            <button class="btn-sm btn-sm-danger btn-reject">拒绝</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="panel-header">我的好友 (@friends.Count)</div>
+            <div id="contacts-detail">
+                @foreach (var f in friends)
+                {
+                    <div class="contact-item" style="cursor:default;">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=@f.AvatarSeed" alt="" class="avatar" />
+                        <div class="contact-info">
+                            <div class="contact-top">
+                                <span class="nickname">@f.Nickname</span>
+                                <button class="btn-sm btn-sm-outline btn-remove-friend" data-friend-id="@f.UserId">删除</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div id="view-history" class="main-view history-panel">
+            <div class="panel-header">历史消息管理</div>
+            <div class="history-detail" id="history-detail">
+                <div class="empty-state"><span>请在左侧查询历史消息</span></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal-overlay" id="modal-add">
+    <div class="modal-box">
+        <div class="modal-header">
+            <span>添加好友 / 建群</span>
+            <button class="modal-close" data-close="modal-add">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+                <button class="btn-sm btn-sm-primary" id="tab-add-friend">添加好友</button>
+                <button class="btn-sm btn-sm-outline" id="tab-create-group">创建群聊</button>
+            </div>
+            <div id="add-friend-panel">
+                <input type="text" class="search-input" id="search-user-input" placeholder="搜索用户账号或昵称..." style="width:100%;margin-bottom:12px;" />
+                <button class="btn-sm btn-sm-primary" id="btn-search-user">搜索</button>
+                <div id="search-results" style="margin-top:12px;"></div>
+            </div>
+            <div id="create-group-panel" class="hidden">
+                <div class="form-group">
+                    <label>群名称</label>
+                    <input type="text" id="group-name-input" placeholder="输入群名称" />
+                </div>
+                <div class="form-group">
+                    <label>选择成员</label>
+                    <div class="group-member-select" id="group-members">
+                        @foreach (var f in friends)
+                        {
+                            <label><input type="checkbox" value="@f.UserId" /> @f.Nickname</label>
+                        }
+                    </div>
+                </div>
+                <button class="btn-sm btn-sm-primary" id="btn-create-group">创建群聊</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/api-client.js"></script>
+<script src="~/js/message-renderer.js"></script>
+<script src="~/js/file-upload.js"></script>
+<script src="~/js/friend-manager.js"></script>
+<script src="~/js/history-manager.js"></script>
+<script src="~/js/chat-app.js"></script>
+</body>
+</html>

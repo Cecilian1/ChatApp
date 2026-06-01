@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网上沟通交流系统 - 管理员后台</title>
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+
+<div class="admin-container">
+    <aside class="admin-sidebar">
+        <div class="sidebar-logo">
+            <span class="logo-icon">🛡️</span>
+            <span class="logo-text">IM 系统管理后台</span>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="#" class="menu-item active">
+                <span class="menu-icon">📝</span> 用户注册审核
+                <span class="menu-badge">4</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="menu-icon">👥</span> 用户账号管理
+            </a>
+            <a href="#" class="menu-item">
+                <span class="menu-icon">💬</span> 交流信息管理
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="admin-profile">
+                <div class="admin-avatar">A</div>
+                <span class="admin-name">超级管理员</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="content-header">
+            <div class="breadcrumb">
+                <span class="parent">首页</span> / <span class="current">用户注册审核</span>
+            </div>
+            <div class="system-time">系统状态：正常运行</div>
+        </header>
+
+        <div class="scroll-wrapper">
+
+            <div class="content-card">
+                <div class="card-title-box">
+                    <h3 class="card-title">待审核用户申请</h3>
+                    <span class="card-subtitle">当前共有 4 条未处理的注册申请</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>申请人账号</th>
+                            <th>昵称</th>
+                            <th>申请时间</th>
+                            <th>备注/填报原因</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><strong>user_test01</strong></td>
+                            <td>研发部-小张</td>
+                            <td>2026-06-01 14:22</td>
+                            <td>日常工作沟通使用，属于研发一组成员。</td>
+                            <td class="text-center">
+                                <button class="btn btn-success">通过</button>
+                                <button class="btn btn-danger">拒绝</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>sales_king</strong></td>
+                            <td>销售部-王五</td>
+                            <td>2026-06-01 15:10</td>
+                            <td>外部业务对接。</td>
+                            <td class="text-center">
+                                <button class="btn btn-success">通过</button>
+                                <button class="btn btn-danger">拒绝</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <div class="card-title-box">
+                    <h3 class="card-title">交流信息监控与管理</h3>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="filter-item">
+                        <label>发送人账号</label>
+                        <input type="text" placeholder="输入账号...">
+                    </div>
+                    <div class="filter-item">
+                        <label>关键词</label>
+                        <input type="text" placeholder="输入消息关键字...">
+                    </div>
+                    <div class="filter-item">
+                        <label>时间范围</label>
+                        <select>
+                            <option>今天</option>
+                            <option>近3天</option>
+                            <option>近1周</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" style="align-self: flex-end; height: 35px;">🔍 查询数据</button>
+                </div>
+
+                <div class="batch-actions">
+                    <button class="btn btn-danger-outline">⚠️ 批量删除选中记录</button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th width="40"><input type="checkbox"></th>
+                            <th>发送者</th>
+                            <th>接收者/群聊</th>
+                            <th>消息内容摘要</th>
+                            <th>发送时间</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>user_test01</td>
+                            <td>前端开发技术交流群</td>
+                            <td>大家把今天写的 MAUI 代码提交一下</td>
+                            <td>2026-06-01 16:00</td>
+                            <td class="text-center">
+                                <button class="btn btn-text-danger">删除</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>sales_king</td>
+                            <td>张三 (项目经理)</td>
+                            <td>[文件传输] 2026报价单.xlsx</td>
+                            <td>2026-06-01 16:05</td>
+                            <td class="text-center">
+                                <button class="btn btn-text-danger">删除</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

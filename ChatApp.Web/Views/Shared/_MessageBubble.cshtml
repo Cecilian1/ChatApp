@@ -1,0 +1,34 @@
+@model ChatApp.Shared.Models.MessageDto
+@{
+    var side = Model.IsMine ? "message-right" : "message-left";
+    var avatarUrl = $"https://api.dicebear.com/7.x/adventurer/svg?seed={Model.SenderAvatarSeed}";
+    var isGroup = !Model.IsMine;
+}
+
+<div class="message-wrapper @side" data-message-id="@Model.Id">
+    <img src="@avatarUrl" alt="头像" class="avatar-sm" />
+    <div class="message-content">
+        @if (isGroup && !Model.IsMine)
+        {
+            <span class="sender-name">@Model.SenderName</span>
+        }
+        @if (Model.Type == ChatApp.Shared.Enums.MessageType.File)
+        {
+            <div class="file-card">
+                <div class="file-icon">📄</div>
+                <div class="file-info">
+                    <span class="file-name">@Model.FileName</span>
+                    <span class="file-size">@Model.FileSize</span>
+                    @if (Model.FileProgress.HasValue && Model.FileProgress < 100)
+                    {
+                        <div class="progress-bar"><div class="progress" style="width:@(Model.FileProgress)%"></div></div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="msg-bubble">@Model.Content</div>
+        }
+    </div>
+</div>
