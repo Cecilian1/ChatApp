@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChatApp.Web.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/Friend")]
 [ApiController]
 [RequireLogin]
 public class FriendApiController : ControllerBase
@@ -39,7 +39,7 @@ public class FriendApiController : ControllerBase
         return Ok(_friendService.SearchUsers(userId, keyword));
     }
 
-    [HttpPost("request")]
+    [HttpPost("send-friend-request")]
     public IActionResult SendRequest([FromBody] FriendActionRequest request)
     {
         var userId = _accountService.GetCurrentUserId(HttpContext)!;

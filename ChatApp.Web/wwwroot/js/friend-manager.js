@@ -38,21 +38,12 @@ const FriendManager = {
             if (e.target.classList.contains('btn-accept')) {
                 await ApiClient.post('/api/Friend/accept', { requestId: id });
                 card.remove();
+                this.ensureRequestEmptyState();
                 app.refreshSessions();
             } else if (e.target.classList.contains('btn-reject')) {
                 await ApiClient.post('/api/Friend/reject', { requestId: id });
                 card.remove();
-            }
-        });
-
-        document.getElementById('contacts-detail')?.addEventListener('click', async e => {
-            const btn = e.target.closest('.btn-remove-friend');
-            if (!btn) return;
-            if (!confirm('确定删除该好友？')) return;
-            const res = await ApiClient.del(`/api/Friend/${btn.dataset.friendId}`);
-            if (res?.success) {
-                btn.closest('.contact-item').remove();
-                app.refreshSessions();
+                this.ensureRequestEmptyState();
             }
         });
 
@@ -63,6 +54,20 @@ const FriendManager = {
             const res = await ApiClient.del(`/api/Friend/${friendId}`);
             if (res?.success) app.refreshSessions();
         });
+
+        document.getElementById('contact-search')?.addEventListener('input', e => {
+            const q = e.target.value.toLowerCase();
+            document.querySelectorAll('#contact-list .contact-item').forEach(item => {
+                const name = item.querySelector('.nickname')?.textContent.toLowerCase() || '';
+                item.style.display = name.includes(q) ? '' : 'none';
+            });
+        });
+    },
+
+    ensureRequestEmptyState() {
+        const list = document.getElementById('request-list');
+        if (!list || list.querySelector('.request-card')) return;
+        list.innerHTML = '<div class="empty-state"><span>暂无待处理的好友申请</span></div>';
     },
 
     async searchUsers() {
@@ -82,7 +87,7 @@ const FriendManager = {
             btn.className = 'btn-sm btn-sm-primary';
             btn.textContent = '添加';
             btn.onclick = async () => {
-                const res = await ApiClient.post('/api/Friend/request', { targetUserId: u.id });
+            const res = await ApiClient.post('/api/Friend/send-friend-request', { targetUserId: u.id });
                 btn.textContent = res?.success ? '已发送' : (res?.error || '失败');
                 btn.disabled = true;
             };

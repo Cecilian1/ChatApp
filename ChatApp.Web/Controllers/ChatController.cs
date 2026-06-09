@@ -1,6 +1,8 @@
 using ChatApp.Web.Filters;
 using ChatApp.Web.Services;
+using ChatApp.Web.Services.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace ChatApp.Web.Controllers;
 
@@ -10,15 +12,18 @@ public class ChatController : Controller
     private readonly IUserAccountService _accountService;
     private readonly IChatService _chatService;
     private readonly IFriendService _friendService;
+    private readonly ApiSettings _apiSettings;
 
     public ChatController(
         IUserAccountService accountService,
         IChatService chatService,
-        IFriendService friendService)
+        IFriendService friendService,
+        IOptions<ApiSettings> apiSettings)
     {
         _accountService = accountService;
         _chatService = chatService;
         _friendService = friendService;
+        _apiSettings = apiSettings.Value;
     }
 
     public IActionResult Index()
@@ -33,6 +38,8 @@ public class ChatController : Controller
         ViewBag.Friends = friends;
         ViewBag.PendingRequests = pendingRequests;
         ViewBag.ActiveSessionId = sessions.FirstOrDefault()?.Id;
+        ViewBag.ApiBaseUrl = _apiSettings.BaseUrl;
+        ViewBag.JwtToken = HttpContext.Session.GetString(SessionKeys.JwtToken) ?? "";
 
         if (sessions.Count > 0)
         {

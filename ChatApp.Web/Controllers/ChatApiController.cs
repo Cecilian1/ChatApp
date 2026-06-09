@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChatApp.Web.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/Chat")]
 [ApiController]
 [RequireLogin]
 public class ChatApiController : ControllerBase
@@ -54,7 +54,7 @@ public class ChatApiController : ControllerBase
     {
         var userId = _accountService.GetCurrentUserId(HttpContext)!;
         var msg = _chatService.SendFileMessage(
-            userId, request.SessionId, request.FileName, request.FileSize, request.Progress);
+            userId, request.SessionId, request.FileName, request.FileSize, request.Progress, request.Content);
         return Ok(msg);
     }
 
@@ -93,6 +93,7 @@ public class SendFileRequest
     public string SessionId { get; set; } = string.Empty;
     public string FileName { get; set; } = string.Empty;
     public string FileSize { get; set; } = string.Empty;
+    public string Content { get; set; } = string.Empty;
     public int Progress { get; set; } = 100;
 }
 

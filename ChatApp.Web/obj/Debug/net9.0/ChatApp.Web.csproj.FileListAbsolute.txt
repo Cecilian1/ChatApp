@@ -21,13 +21,8 @@ E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\scopedcss\Views\Shared\
 E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\scopedcss\bundle\ChatApp.Web.styles.css
 E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\scopedcss\projectbundle\ChatApp.Web.bundle.scp.css
 E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\cnhhsx7vhm-b9sayid5wm.gz
-E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\yzp2ojj99l-7sywlsuv49.gz
 E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\ntnxfor8mb-61n19gt1b8.gz
 E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\x5ri1sl561-b1gjsdsout.gz
-E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\14es6q9e9h-qjptrspmbv.gz
-E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\5315p0bvn0-a825zdcuc3.gz
-E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\8fbeghttr4-h8drbzc27q.gz
-E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\4wu8cq0odg-q1jgb7b0cc.gz
 E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\zsgniy24om-m3gu0tysbl.gz
 E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\srv2hlur26-xtxxf3hu2r.gz
 E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\apu75liqr3-bqjiyaj88i.gz
@@ -106,3 +101,10 @@ E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\refint\ChatApp.Web.dll
 E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\ChatApp.Web.pdb
 E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\ChatApp.Web.genruntimeconfig.cache
 E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\ref\ChatApp.Web.dll
+E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\ChatApp.Web.sourcelink.json
+E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\5315p0bvn0-8g0ge1xuzf.gz
+E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\bimu5kj86b-irpyee58qe.gz
+E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\8fbeghttr4-lbo42eo1gf.gz
+E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\4wu8cq0odg-xiv1fdle5i.gz
+E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\yzp2ojj99l-m4tjedilts.gz
+E:\files\code_rider\ChatApp\ChatApp.Web\obj\Debug\net9.0\compressed\14es6q9e9h-h5zxmq9mp6.gz

@@ -48,8 +48,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>7sywlsuv49</Fingerprint>
-      <Integrity>6cIuXQIUVD37gHMcpHOizqX3D7XxB16zc8iAwO5/WRc=</Integrity>
+      <Fingerprint>m4tjedilts</Fingerprint>
+      <Integrity>NpzWPYI8ZhB11V1ZDxu7fXjmSnzyOxcVhwKkxL2qPmc=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\user.css'))</OriginalItemSpec>
@@ -102,8 +102,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>qjptrspmbv</Fingerprint>
-      <Integrity>liFczKQAEs9zquTUA9EEYkHn7pRMJM27GyI+WnWMllQ=</Integrity>
+      <Fingerprint>h5zxmq9mp6</Fingerprint>
+      <Integrity>y0GtWCVXde+vD9WUIcxg552pr8mjjSR0urmm+LhzUcg=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\chat-app.js'))</OriginalItemSpec>
@@ -120,8 +120,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>a825zdcuc3</Fingerprint>
-      <Integrity>ds4IXY+nvziYYw9hAqakWrXz4XvmsI72c6OB4zExOi8=</Integrity>
+      <Fingerprint>8g0ge1xuzf</Fingerprint>
+      <Integrity>SGgYCgRZ11hW1PrM/4mHE4QojSBuJunFq0SiZOdFAIY=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\file-upload.js'))</OriginalItemSpec>
@@ -138,8 +138,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>h8drbzc27q</Fingerprint>
-      <Integrity>P+1dh35zV5jCEean/UCMB8ICKjsBUTNgRBSZ4fC+Uis=</Integrity>
+      <Fingerprint>lbo42eo1gf</Fingerprint>
+      <Integrity>37Gg1Q8VjtzeI3i2YZAYNnVDq2kmv+tTMsUahyfWarg=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\friend-manager.js'))</OriginalItemSpec>
@@ -156,8 +156,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>q1jgb7b0cc</Fingerprint>
-      <Integrity>btthD4pwVNls/qiNA3k/dzBg+FZ7mr1v8nhh25KMTsE=</Integrity>
+      <Fingerprint>xiv1fdle5i</Fingerprint>
+      <Integrity>JxezTeGCcbD7xBi4hiFuFdYwrHMZtnzkTptuWeqxrG0=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\history-manager.js'))</OriginalItemSpec>
@@ -179,6 +179,24 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\message-renderer.js'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\signalr-client.js'))">
+      <SourceType>Package</SourceType>
+      <SourceId>ChatApp.Web</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ChatApp.Web</BasePath>
+      <RelativePath>js/signalr-client.js</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>irpyee58qe</Fingerprint>
+      <Integrity>EjOMrWfXiZLgHT1viX8AGTrSqxweXHw1pf+ngJTp/Fo=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\signalr-client.js'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\site.js'))">
       <SourceType>Package</SourceType>

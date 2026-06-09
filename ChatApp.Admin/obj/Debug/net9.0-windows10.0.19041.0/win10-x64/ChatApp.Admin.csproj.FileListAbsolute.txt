@@ -582,3 +582,5 @@ E:\files\code_rider\ChatApp\ChatApp.Admin\obj\Debug\net9.0-windows10.0.19041.0\w
 E:\files\code_rider\ChatApp\ChatApp.Admin\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\MultipleQualifiersPerDimensionFound.txt
 E:\files\code_rider\ChatApp\ChatApp.Admin\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\vw0acuhbgo-eibb0ywiel.gz
 E:\files\code_rider\ChatApp\ChatApp.Admin\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\publish\vw0acuhbgo-eibb0ywiel.br
+E:\files\code_rider\ChatApp\ChatApp.Admin\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\ChatApp.Admin.sourcelink.json
+E:\files\code_rider\ChatApp\ChatApp.Admin\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\appsettings.json

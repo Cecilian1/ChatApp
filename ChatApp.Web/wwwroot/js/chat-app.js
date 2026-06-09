@@ -14,17 +14,42 @@ const ChatApp = {
         this.state.userSeed = app.dataset.userSeed;
         this.state.activeSessionId = app.dataset.activeSession || null;
 
+        const apiBase = app.dataset.apiBase || '';
+        const jwt = app.dataset.jwt || '';
+        if (apiBase && typeof SignalRClient !== 'undefined') {
+            SignalRClient.init(apiBase, () => jwt);
+        }
+
         this.bindNavTabs();
         this.bindSessionList();
         this.bindSendMessage();
         FriendManager.init(this);
         HistoryManager.init(this);
-        FileUploadManager.init((fileName, fileSize) => this.sendFileMessage(fileName, fileSize));
+        FileUploadManager.init((fileName, fileSize, fileUrl) => this.sendFileMessage(fileName, fileSize, fileUrl));
 
         if (this.state.activeSessionId) {
             this.updateDeleteFriendBtn();
-            this.startMockReply();
+            SignalRClient.joinConversation(this.state.activeSessionId);
         }
+
+        window.ChatApp.onReceiveMessage = (msg) => this.onReceiveMessage(msg);
+    },
+
+    onReceiveMessage(msg) {
+        const sid = msg.sessionId || msg.conversationId;
+        const preview = msg.type === 1 || msg.type === 'File' ? `[文件] ${msg.fileName}` : msg.content;
+        // Skip messages we sent ourselves (already appended from HTTP response)
+        if (msg.senderId === this.state.userId) {
+            this.updateSessionPreview(sid, preview);
+            return;
+        }
+        if (sid !== this.state.activeSessionId) {
+            this.updateSessionPreview(sid, preview);
+            return;
+        }
+        MessageRenderer.appendMessage(
+            document.getElementById('message-container'), msg, this.state.userSeed);
+        this.updateSessionPreview(sid, preview);
     },
 
     bindNavTabs() {
@@ -37,8 +62,15 @@ const ChatApp = {
                 document.querySelectorAll('.list-panel').forEach(p => p.classList.remove('active'));
                 document.getElementById(`panel-${tab}`)?.classList.add('active');
 
-                document.querySelectorAll('.main-view').forEach(v => v.classList.remove('active'));
-                document.getElementById(`view-${tab}`)?.classList.add('active');
+                document.querySelectorAll('.main-view').forEach(v => {
+                    v.classList.remove('active');
+                    v.hidden = true;
+                });
+                const activeView = document.getElementById(`view-${tab}`);
+                if (activeView) {
+                    activeView.classList.add('active');
+                    activeView.hidden = false;
+                }
 
                 if (tab === 'history') HistoryManager.search();
             });
@@ -66,15 +98,17 @@ const ChatApp = {
         document.querySelectorAll('.session-item').forEach(i => i.classList.remove('active'));
         item.classList.add('active');
 
-        this.state.activeSessionId = item.dataset.sessionId;
+        const sessionId = item.dataset.sessionId;
+        this.state.activeSessionId = sessionId;
         document.getElementById('chat-header').style.display = '';
         document.getElementById('chat-footer').style.display = '';
         document.getElementById('chat-title').textContent = item.dataset.title;
         document.getElementById('chat-status').textContent = item.dataset.status;
 
         this.updateDeleteFriendBtn();
-        await this.loadMessages(this.state.activeSessionId);
-        this.startMockReply();
+        await this.loadMessages(sessionId);
+        if (this.state.activeSessionId === sessionId)
+            SignalRClient.joinConversation(sessionId);
     },
 
     updateDeleteFriendBtn() {
@@ -89,6 +123,8 @@ const ChatApp = {
 
     async loadMessages(sessionId) {
         const messages = await ApiClient.get(`/api/Chat/messages/${sessionId}`);
+        // Discard result if the user switched to a different session while loading
+        if (this.state.activeSessionId !== sessionId) return;
         const container = document.getElementById('message-container');
         container.innerHTML = '';
         if (!messages?.length) {
@@ -129,12 +165,13 @@ const ChatApp = {
         }
     },
 
-    async sendFileMessage(fileName, fileSize) {
+    async sendFileMessage(fileName, fileSize, fileUrl) {
         if (!this.state.activeSessionId) return;
         const msg = await ApiClient.post('/api/Chat/send-file', {
             sessionId: this.state.activeSessionId,
             fileName,
             fileSize,
+            content: fileUrl || fileName,
             progress: 100
         });
         if (msg) {
@@ -179,37 +216,6 @@ const ChatApp = {
                 </div>`;
             list.appendChild(div);
         });
-    },
-
-    startMockReply() {
-        if (this.state.mockReplyTimer) clearInterval(this.state.mockReplyTimer);
-        this.state.mockReplyTimer = setInterval(async () => {
-            if (!this.state.activeSessionId) return;
-            const item = document.querySelector('.session-item.active');
-            if (!item || item.dataset.sessionType !== 'Private') return;
-
-            const replies = ['收到，我继续完善前端。', '好的，没问题。', '稍后发你。'];
-            const content = replies[Math.floor(Math.random() * replies.length)];
-            const sessionId = this.state.activeSessionId;
-
-            const messages = await ApiClient.get(`/api/Chat/messages/${sessionId}`);
-            const last = messages?.[messages.length - 1];
-            if (last?.isMine) {
-                const fakeReply = {
-                    id: 'mock-' + Date.now(),
-                    sessionId,
-                    senderName: item.dataset.title,
-                    senderAvatarSeed: 'Peter',
-                    type: 0,
-                    content,
-                    isMine: false,
-                    sentAt: new Date().toISOString()
-                };
-                MessageRenderer.appendMessage(
-                    document.getElementById('message-container'), fakeReply, this.state.userSeed);
-                this.updateSessionPreview(sessionId, content);
-            }
-        }, 15000);
     }
 };
 

@@ -15,13 +15,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>网上沟通交流系统</title>
-    <link rel="stylesheet" href="~/css/user.css" />
+    <link rel="stylesheet" href="~/css/user.css" asp-append-version="true" />
 </head>
 <body>
 <div class="im-container" id="im-app"
      data-user-id="@user!.Id"
      data-user-seed="@user.AvatarSeed"
-     data-active-session="@activeSessionId">
+     data-active-session="@activeSessionId"
+     data-api-base="@ViewBag.ApiBaseUrl"
+     data-jwt="@ViewBag.JwtToken">
 
     <aside class="nav-sidebar">
         <div class="user-avatar-wrapper" title="@user.Nickname">
@@ -31,6 +33,7 @@
         <nav class="nav-menu">
             <button class="nav-item active" data-tab="chat" title="聊天">💬</button>
             <button class="nav-item" data-tab="contacts" title="通讯录">👥</button>
+            <button class="nav-item" data-tab="requests" title="好友申请">📩</button>
             <button class="nav-item" data-tab="history" title="历史记录">⏳</button>
         </nav>
         <div class="nav-bottom">
@@ -100,6 +103,13 @@
             </div>
         </div>
 
+        <div id="panel-requests" class="list-panel">
+            <div class="search-header sidebar-section-header">
+                <span class="sidebar-section-title">好友申请</span>
+            </div>
+            <p class="sidebar-section-desc">在右侧查看并处理待审核申请</p>
+        </div>
+
         <div id="panel-history" class="list-panel">
             <div class="history-filter">
                 <input type="text" id="history-keyword" placeholder="关键词..." />
@@ -157,9 +167,19 @@
             </footer>
         </div>
 
-        <div id="view-contacts" class="main-view contacts-panel">
+        <div id="view-contacts" class="main-view contacts-panel" hidden>
+            <div class="panel-header">通讯录</div>
+            <div class="contacts-main-body">
+                <div class="empty-state">
+                    <span class="empty-state-icon">👥</span>
+                    <span>在左侧选择好友，切换到「聊天」可发起会话</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-requests" class="main-view requests-panel" hidden>
             <div class="panel-header">好友申请</div>
-            <div id="request-list">
+            <div class="requests-main-body" id="request-list">
                 @if (pendingRequests.Count == 0)
                 {
                     <div class="empty-state"><span>暂无待处理的好友申请</span></div>
@@ -175,27 +195,12 @@
                     </div>
                 }
             </div>
-            <div class="panel-header">我的好友 (@friends.Count)</div>
-            <div id="contacts-detail">
-                @foreach (var f in friends)
-                {
-                    <div class="contact-item" style="cursor:default;">
-                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=@f.AvatarSeed" alt="" class="avatar" />
-                        <div class="contact-info">
-                            <div class="contact-top">
-                                <span class="nickname">@f.Nickname</span>
-                                <button class="btn-sm btn-sm-outline btn-remove-friend" data-friend-id="@f.UserId">删除</button>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
         </div>
 
-        <div id="view-history" class="main-view history-panel">
-            <div class="panel-header">历史消息管理</div>
-            <div class="history-detail" id="history-detail">
-                <div class="empty-state"><span>请在左侧查询历史消息</span></div>
+        <div id="view-history" class="main-view history-panel" hidden>
+            <div class="panel-header">历史消息</div>
+            <div class="history-main-body" id="history-detail">
+                <div class="empty-state"><span>请在左侧输入关键词查询历史消息</span></div>
             </div>
         </div>
     </section>
@@ -237,11 +242,13 @@
     </div>
 </div>
 
-<script src="~/js/api-client.js"></script>
-<script src="~/js/message-renderer.js"></script>
-<script src="~/js/file-upload.js"></script>
-<script src="~/js/friend-manager.js"></script>
-<script src="~/js/history-manager.js"></script>
-<script src="~/js/chat-app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
+<script src="~/js/api-client.js" asp-append-version="true"></script>
+<script src="~/js/signalr-client.js" asp-append-version="true"></script>
+<script src="~/js/message-renderer.js" asp-append-version="true"></script>
+<script src="~/js/file-upload.js" asp-append-version="true"></script>
+<script src="~/js/friend-manager.js" asp-append-version="true"></script>
+<script src="~/js/history-manager.js" asp-append-version="true"></script>
+<script src="~/js/chat-app.js" asp-append-version="true"></script>
 </body>
 </html>

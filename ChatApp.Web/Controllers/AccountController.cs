@@ -1,5 +1,6 @@
 using ChatApp.Web.Filters;
 using ChatApp.Web.Services;
+using ChatApp.Web.Services.Http;
 using ChatApp.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,7 +33,7 @@ public class AccountController : Controller
             return View();
         }
 
-        HttpContext.Session.SetString(MockUserAccountService.SessionUserIdKey, user!.Id);
+        HttpContext.Session.SetString(SessionKeys.UserId, user!.Id);
         return RedirectToAction("Index", "Chat");
     }
 

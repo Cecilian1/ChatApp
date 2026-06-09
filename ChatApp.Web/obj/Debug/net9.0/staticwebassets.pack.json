@@ -41,6 +41,10 @@
       "PackagePath": "staticwebassets\\js\\message-renderer.js"
     },
     {
+      "Id": "E:\\files\\code_rider\\ChatApp\\ChatApp.Web\\wwwroot\\js\\signalr-client.js",
+      "PackagePath": "staticwebassets\\js\\signalr-client.js"
+    },
+    {
       "Id": "E:\\files\\code_rider\\ChatApp\\ChatApp.Web\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

@@ -66,13 +66,22 @@ else
 
     protected override void OnInitialized()
     {
-        RefreshPending();
+        if (Auth.IsLoggedIn)
+            RefreshPending();
         Auth.OnChange += OnAuthChanged;
     }
 
-    protected override void OnParametersSet() => RefreshPending();
+    protected override void OnParametersSet()
+    {
+        if (Auth.IsLoggedIn)
+            RefreshPending();
+    }
 
-    private void RefreshPending() => PendingCount = AdminService.GetPendingCount();
+    private void RefreshPending()
+    {
+        if (!Auth.IsLoggedIn) return;
+        PendingCount = AdminService.GetPendingCount();
+    }
 
     private void OnAuthChanged()
     {

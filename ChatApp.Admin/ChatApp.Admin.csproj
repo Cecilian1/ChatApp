@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
         <!-- 管理员端仅面向 Windows 桌面，避免构建 Android/iOS 依赖 -->
@@ -45,6 +45,7 @@
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+        <MauiAsset Include="appsettings.json" LogicalName="appsettings.json" />
     </ItemGroup>
 
     <ItemGroup>

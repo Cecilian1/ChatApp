@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChatApp.Web.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/Group")]
 [ApiController]
 [RequireLogin]
 public class GroupApiController : ControllerBase

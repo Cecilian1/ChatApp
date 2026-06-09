@@ -9,3 +9,4 @@ E:\files\code_rider\ChatApp\ChatApp.Shared\obj\Debug\net9.0\ChatApp.Shared.dll
 E:\files\code_rider\ChatApp\ChatApp.Shared\obj\Debug\net9.0\refint\ChatApp.Shared.dll
 E:\files\code_rider\ChatApp\ChatApp.Shared\obj\Debug\net9.0\ChatApp.Shared.pdb
 E:\files\code_rider\ChatApp\ChatApp.Shared\obj\Debug\net9.0\ref\ChatApp.Shared.dll
+E:\files\code_rider\ChatApp\ChatApp.Shared\obj\Debug\net9.0\ChatApp.Shared.sourcelink.json

@@ -100,6 +100,26 @@ body.auth-page {
 .list-panel { display: none; flex-direction: column; flex: 1; overflow: hidden; }
 .list-panel.active { display: flex; }
 
+.sidebar-section-header {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.sidebar-section-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.sidebar-section-desc {
+    margin: 0;
+    padding: 0 15px 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    border-bottom: 1px solid var(--border-color);
+}
+
 .search-header {
     padding: 15px;
     display: flex;
@@ -175,15 +195,34 @@ body.auth-page {
     display: block;
 }
 
-.main-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-.main-view { display: none; flex: 1; flex-direction: column; overflow: hidden; }
-.main-view.active { display: flex; }
+.main-panel {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    min-width: 0;
+    background-color: var(--bg-chat);
+}
+
+.main-view {
+    position: absolute;
+    inset: 0;
+    display: none !important;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+    background-color: var(--bg-chat);
+}
+
+.main-view.active {
+    display: flex !important;
+}
+
+.main-view[hidden] {
+    display: none !important;
+}
 
 .chat-panel {
-    flex: 1;
     background-color: var(--bg-chat);
-    display: flex;
-    flex-direction: column;
 }
 
 .chat-header {
@@ -212,6 +251,7 @@ body.auth-page {
 
 .message-container {
     flex: 1;
+    min-height: 0;
     padding: 20px;
     overflow-y: auto;
     background-color: #fafafa;
@@ -290,7 +330,7 @@ body.auth-page {
 }
 
 .chat-footer {
-    height: 180px;
+    height: 110px;
     border-top: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
@@ -298,12 +338,13 @@ body.auth-page {
 }
 
 .toolbar {
-    height: 40px;
+    height: 32px;
     padding: 0 15px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
     border-bottom: 1px solid #f5f5f5;
+    flex-shrink: 0;
 }
 
 .tool-btn {
@@ -317,18 +358,20 @@ body.auth-page {
 
 .input-area {
     flex: 1;
+    min-height: 0;
     position: relative;
-    padding: 10px 15px;
+    padding: 8px 15px 10px;
 }
 
 .chat-textarea {
     width: 100%;
-    height: calc(100% - 35px);
+    height: 52px;
     border: none;
     resize: none;
     outline: none;
     font-size: 14px;
     color: var(--text-main);
+    line-height: 1.4;
 }
 
 .send-btn {
@@ -338,7 +381,7 @@ body.auth-page {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 6px 18px;
+    padding: 5px 16px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 13px;
@@ -356,12 +399,29 @@ body.auth-page {
 }
 .empty-state-icon { font-size: 48px; opacity: 0.5; }
 
-/* 通讯录详情 */
-.contacts-panel, .history-panel {
+/* 非聊天主视图 */
+.contacts-panel,
+.history-panel,
+.requests-panel {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    min-height: 0;
+    background-color: var(--bg-chat);
+}
+
+.contacts-main-body,
+.requests-main-body,
+.history-main-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.requests-main-body {
+    padding-bottom: 12px;
+}
+
+.history-main-body {
+    padding: 16px 20px;
 }
 
 .panel-header {
@@ -410,13 +470,7 @@ body.auth-page {
     font-size: 13px;
 }
 
-.history-detail {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px 20px;
-}
-
-.history-row {
+.history-main-body .history-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
