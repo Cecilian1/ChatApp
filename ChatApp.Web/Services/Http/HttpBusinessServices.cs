@@ -14,13 +14,13 @@ public class HttpChatService(ApiHttpClient api) : IChatService
     public MessageDto SendMessage(string userId, string sessionId, string content) =>
         api.PostAsync<MessageDto>("api/chat/send", new { sessionId, content }).GetAwaiter().GetResult()!;
 
-    public MessageDto SendFileMessage(string userId, string sessionId, string fileName, string fileSize, int progress, string? fileUrl = null) =>
+    public MessageDto SendFileMessage(string userId, string sessionId, string fileName, long fileSizeBytes, int progress, string? fileUrl = null)=>
         api.PostAsync<MessageDto>("api/chat/send-file", new
         {
             sessionId,
             fileName,
             content = fileUrl ?? fileName,
-            fileSizeBytes = ParseSize(fileSize)
+            fileSizeBytes
         }).GetAwaiter().GetResult()!;
 
     public List<MessageDto> QueryHistory(string userId, MessageQueryFilter filter)

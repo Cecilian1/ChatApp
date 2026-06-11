@@ -12,6 +12,7 @@ builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, relo
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));
 builder.Services.Configure<FileStorageOptions>(builder.Configuration.GetSection(FileStorageOptions.SectionName));
+builder.Services.AddHttpContextAccessor();
 
 var jwtOpt = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>() ?? new JwtOptions();
 var useSqlite = builder.Configuration.GetValue<bool>("UseSqlite");

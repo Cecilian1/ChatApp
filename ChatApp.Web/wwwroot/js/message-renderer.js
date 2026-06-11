@@ -4,6 +4,13 @@ const MessageRenderer = {
         return d.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
     },
 
+    formatFileSize(bytes) {
+        if (!bytes) return '';
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    },
+
     createMessageElement(msg, userSeed) {
         const wrapper = document.createElement('div');
         wrapper.className = `message-wrapper ${msg.isMine ? 'message-right' : 'message-left'}`;
@@ -37,18 +44,22 @@ const MessageRenderer = {
         wrapper.appendChild(content);
         return wrapper;
     },
-
+    
     createFileCard(msg) {
         const card = document.createElement('div');
         card.className = 'file-card';
+        const downloadUrl = msg.content; 
+        const fileName = msg.fileName || '文件';
+        const fileSizeText = msg.fileSize ? ` (${this.formatFileSize(msg.fileSize)})` : '';
+
         card.innerHTML = `
             <div class="file-icon">📄</div>
             <div class="file-info">
-                <span class="file-name">${msg.fileName || msg.content}</span>
-                <span class="file-size">${msg.fileSize || ''}</span>
+                <a href="${downloadUrl}" target="_blank" class="file-name" download>${fileName}</a>
+                <span class="file-size">${fileSizeText}</span>
                 ${msg.fileProgress != null && msg.fileProgress < 100
-                    ? `<div class="progress-bar"><div class="progress" style="width:${msg.fileProgress}%"></div></div>`
-                    : ''}
+            ? `<div class="progress-bar"><div class="progress" style="width:${msg.fileProgress}%"></div></div>`
+            : ''}
             </div>`;
         return card;
     },

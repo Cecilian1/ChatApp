@@ -3,6 +3,15 @@
     var side = Model.IsMine ? "message-right" : "message-left";
     var avatarUrl = $"https://api.dicebear.com/7.x/adventurer/svg?seed={Model.SenderAvatarSeed}";
     var isGroup = !Model.IsMine;
+
+
+    string FormatFileSize(long? bytes)
+    {
+        if (!bytes.HasValue) return "";
+        if (bytes.Value < 1024) return bytes.Value + " B";
+        if (bytes.Value < 1024 * 1024) return (bytes.Value / 1024.0).ToString("F1") + " KB";
+        return (bytes.Value / (1024.0 * 1024)).ToString("F1") + " MB";
+    }
 }
 
 <div class="message-wrapper @side" data-message-id="@Model.Id">
@@ -14,11 +23,20 @@
         }
         @if (Model.Type == ChatApp.Shared.Enums.MessageType.File)
         {
+            var fileUrl = Model.Content;
+            if (!string.IsNullOrEmpty(fileUrl) && !fileUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            {
+                fileUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{fileUrl}";
+            }
+            var fileSizeText = FormatFileSize(Model.FileSize);
             <div class="file-card">
                 <div class="file-icon">📄</div>
                 <div class="file-info">
-                    <span class="file-name">@Model.FileName</span>
-                    <span class="file-size">@Model.FileSize</span>
+                    <a href="@fileUrl" target="_blank" class="file-name" download>@(Model.FileName ?? "文件")</a>
+                    @if (!string.IsNullOrEmpty(fileSizeText))
+                    {
+                        <span class="file-size"> (@fileSizeText)</span>
+                    }
                     @if (Model.FileProgress.HasValue && Model.FileProgress < 100)
                     {
                         <div class="progress-bar"><div class="progress" style="width:@(Model.FileProgress)%"></div></div>

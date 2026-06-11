@@ -13,7 +13,7 @@ public class MessageDto
     public MessageType Type { get; set; }
     public string Content { get; set; } = string.Empty;
     public string? FileName { get; set; }
-    public string? FileSize { get; set; }
+    public long? FileSize { get; set; }
     public int? FileProgress { get; set; }
     public DateTime SentAt { get; set; }
     public bool IsMine { get; set; }

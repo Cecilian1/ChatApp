@@ -25,7 +25,7 @@ const ChatApp = {
         this.bindSendMessage();
         FriendManager.init(this);
         HistoryManager.init(this);
-        FileUploadManager.init((fileName, fileSize, fileUrl) => this.sendFileMessage(fileName, fileSize, fileUrl));
+        FileUploadManager.init((fileName, fileSizeBytes, fileUrl) => this.sendFileMessage(fileName, fileSizeBytes, fileUrl));
 
         if (this.state.activeSessionId) {
             this.updateDeleteFriendBtn();
@@ -38,7 +38,6 @@ const ChatApp = {
     onReceiveMessage(msg) {
         const sid = msg.sessionId || msg.conversationId;
         const preview = msg.type === 1 || msg.type === 'File' ? `[文件] ${msg.fileName}` : msg.content;
-        // Skip messages we sent ourselves (already appended from HTTP response)
         if (msg.senderId === this.state.userId) {
             this.updateSessionPreview(sid, preview);
             return;
@@ -123,7 +122,6 @@ const ChatApp = {
 
     async loadMessages(sessionId) {
         const messages = await ApiClient.get(`/api/Chat/messages/${sessionId}`);
-        // Discard result if the user switched to a different session while loading
         if (this.state.activeSessionId !== sessionId) return;
         const container = document.getElementById('message-container');
         container.innerHTML = '';
@@ -164,15 +162,14 @@ const ChatApp = {
             this.updateSessionPreview(this.state.activeSessionId, content);
         }
     },
-
-    async sendFileMessage(fileName, fileSize, fileUrl) {
+    
+    async sendFileMessage(fileName, fileSizeBytes, fileUrl) {
         if (!this.state.activeSessionId) return;
         const msg = await ApiClient.post('/api/Chat/send-file', {
             sessionId: this.state.activeSessionId,
-            fileName,
-            fileSize,
-            content: fileUrl || fileName,
-            progress: 100
+            fileName: fileName,
+            fileSizeBytes: fileSizeBytes,
+            content: fileUrl
         });
         if (msg) {
             MessageRenderer.appendMessage(
@@ -205,8 +202,8 @@ const ChatApp = {
             const avatarType = isGroup ? 'identicon' : 'bottts';
             div.innerHTML = `
                 ${s.unreadCount > 0
-                    ? `<div class="avatar-wrapper"><img src="https://api.dicebear.com/7.x/${avatarType}/svg?seed=${s.avatarSeed}" class="avatar" /><span class="badge">${s.unreadCount}</span></div>`
-                    : `<img src="https://api.dicebear.com/7.x/${avatarType}/svg?seed=${s.avatarSeed}" class="avatar" />`}
+                ? `<div class="avatar-wrapper"><img src="https://api.dicebear.com/7.x/${avatarType}/svg?seed=${s.avatarSeed}" class="avatar" /><span class="badge">${s.unreadCount}</span></div>`
+                : `<img src="https://api.dicebear.com/7.x/${avatarType}/svg?seed=${s.avatarSeed}" class="avatar" />`}
                 <div class="session-info">
                     <div class="session-top">
                         <span class="nickname">${s.title}</span>

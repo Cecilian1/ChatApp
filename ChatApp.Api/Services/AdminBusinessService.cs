@@ -136,7 +136,7 @@ public class AdminBusinessService(AppDbContext db) : IAdminBusinessService
         Type = m.Type,
         Content = m.Content,
         FileName = m.FileName,
-        FileSize = m.FileSize.HasValue ? FormatSize(m.FileSize.Value) : null,
+        FileSize = m.FileSize,
         FileProgress = m.Type == MessageType.File ? 100 : null,
         SentAt = m.SentAt,
         IsMine = m.SenderId == currentUserId

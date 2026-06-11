@@ -9,7 +9,7 @@ public interface IChatService
     List<ChatSessionDto> GetSessions(string userId);
     List<MessageDto> GetMessages(string userId, string sessionId);
     MessageDto SendMessage(string userId, string sessionId, string content);
-    MessageDto SendFileMessage(string userId, string sessionId, string fileName, string fileSize, int progress, string? fileUrl = null);
+    MessageDto SendFileMessage(string userId, string sessionId, string fileName, long fileSizeBytes, int progress, string? fileUrl = null);
     List<MessageDto> QueryHistory(string userId, MessageQueryFilter filter);
     bool DeleteMessage(string userId, string messageId);
     bool DeleteMessages(string userId, IEnumerable<string> messageIds);
@@ -108,7 +108,7 @@ public class MockChatService : IChatService
         });
     }
 
-    public MessageDto SendFileMessage(string userId, string sessionId, string fileName, string fileSize, int progress, string? fileUrl = null)
+    public MessageDto SendFileMessage(string userId, string sessionId, string fileName, long fileSizeBytes, int progress, string? fileUrl = null)
     {
         return MockDataStore.Mutate(data =>
         {
@@ -123,7 +123,7 @@ public class MockChatService : IChatService
                 Type = MessageType.File,
                 Content = fileUrl ?? fileName,
                 FileName = fileName,
-                FileSize = fileSize,
+                FileSize = fileSizeBytes,
                 FileProgress = progress,
                 SentAt = DateTime.Now,
                 IsMine = true

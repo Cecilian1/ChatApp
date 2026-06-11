@@ -201,7 +201,7 @@ public static class MockDataStore
                 Type = MessageType.File,
                 Content = "网上沟通系统需求文档.pdf",
                 FileName = "网上沟通系统需求文档.pdf",
-                FileSize = "2.4 MB",
+                FileSize = null,
                 FileProgress = 100,
                 SentAt = now.AddMinutes(-50),
                 IsMine = false

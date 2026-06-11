@@ -54,7 +54,7 @@ public class ChatApiController : ControllerBase
     {
         var userId = _accountService.GetCurrentUserId(HttpContext)!;
         var msg = _chatService.SendFileMessage(
-            userId, request.SessionId, request.FileName, request.FileSize, request.Progress, request.Content);
+            userId, request.SessionId, request.FileName, request.FileSizeBytes, request.Progress, request.Content);
         return Ok(msg);
     }
 
@@ -92,7 +92,7 @@ public class SendFileRequest
 {
     public string SessionId { get; set; } = string.Empty;
     public string FileName { get; set; } = string.Empty;
-    public string FileSize { get; set; } = string.Empty;
+    public long FileSizeBytes { get; set; }
     public string Content { get; set; } = string.Empty;
     public int Progress { get; set; } = 100;
 }

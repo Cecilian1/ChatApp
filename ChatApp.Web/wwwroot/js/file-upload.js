@@ -36,7 +36,7 @@ const FileUploadManager = {
 
             const result = await ApiClient.uploadFile(file);
             if (result?.success && onUploaded) {
-                await onUploaded(result.fileName, result.fileSize, result.url);
+                await onUploaded(result.fileName, result.sizeBytes, result.url);
                 el.remove();
             }
         });
