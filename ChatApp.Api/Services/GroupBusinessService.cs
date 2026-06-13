@@ -10,6 +10,7 @@ public interface IGroupBusinessService
 {
     Task<List<GroupDto>> GetGroupsAsync(long userId);
     Task<(bool Success, string? Error, GroupDto? Group)> CreateGroupAsync(long userId, string name, List<long> memberIds);
+    Task<List<GroupMemberDto>> GetMembersAsync(long userId, long groupId);
 }
 
 public class GroupBusinessService(AppDbContext db) : IGroupBusinessService
@@ -59,5 +60,24 @@ public class GroupBusinessService(AppDbContext db) : IGroupBusinessService
             MemberIds = allMembers.Select(x => x.ToString()).ToList(),
             CreatedAt = group.CreatedAt
         });
+    }
+
+    public async Task<List<GroupMemberDto>> GetMembersAsync(long userId, long groupId)
+    {
+        var isMember = await db.GroupMembers.AnyAsync(m => m.GroupId == groupId && m.UserId == userId);
+        if (!isMember) return [];
+
+        var group = await db.Groups
+            .Include(g => g.Members).ThenInclude(m => m.User)
+            .FirstOrDefaultAsync(g => g.Id == groupId);
+        if (group is null) return [];
+
+        return group.Members.Select(m => new GroupMemberDto
+        {
+            UserId = m.UserId.ToString(),
+            Nickname = m.User.Nickname,
+            AvatarSeed = m.User.AvatarSeed,
+            IsCreator = m.UserId == group.CreatorId
+        }).ToList();
     }
 }

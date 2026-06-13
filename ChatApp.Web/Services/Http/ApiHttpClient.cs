@@ -53,6 +53,18 @@ public class ApiHttpClient
         }
     }
 
+    public async Task<T?> PutAsync<T>(string path, object? body = null)
+    {
+        using var request = CreateRequest(HttpMethod.Put, path, body);
+        var response = await _http.SendAsync(request);
+        if (!response.IsSuccessStatusCode)
+        {
+            var err = await response.Content.ReadFromJsonAsync<ApiResult>(JsonOptions);
+            throw new ApiException(err?.Error ?? response.ReasonPhrase ?? "请求失败");
+        }
+        return await response.Content.ReadFromJsonAsync<T>(JsonOptions);
+    }
+
     public async Task DeleteAsync(string path)
     {
         using var request = CreateRequest(HttpMethod.Delete, path);

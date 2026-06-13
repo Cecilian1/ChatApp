@@ -9,3 +9,11 @@ public class GroupDto
     public string CreatorId { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
 }
+
+public class GroupMemberDto
+{
+    public string UserId { get; set; } = string.Empty;
+    public string Nickname { get; set; } = string.Empty;
+    public string AvatarSeed { get; set; } = string.Empty;
+    public bool IsCreator { get; set; }
+}

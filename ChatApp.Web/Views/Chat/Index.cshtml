@@ -37,8 +37,9 @@
             <button class="nav-item" data-tab="history" title="历史记录">⏳</button>
         </nav>
         <div class="nav-bottom">
-            <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
-                <button type="submit" class="nav-item" title="退出">⚙️</button>
+            <button class="nav-item" id="btn-open-profile" title="个人信息">⚙️</button>
+            <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;" id="logout-form">
+                <button type="button" class="nav-item" title="退出登录" id="btn-logout">🚪</button>
             </form>
         </div>
     </aside>
@@ -56,18 +57,19 @@
                          data-session-id="@s.Id"
                          data-session-type="@s.Type"
                          data-target-user-id="@s.TargetUserId"
+                         data-group-id="@s.GroupId"
                          data-title="@s.Title"
                          data-status="@s.OnlineStatus">
                         @if (s.UnreadCount > 0)
                         {
                             <div class="avatar-wrapper">
-                                <img src="https://api.dicebear.com/7.x/@(s.Type == ChatApp.Shared.Enums.SessionType.Group ? "identicon" : "bottts")/svg?seed=@s.AvatarSeed" alt="" class="avatar" />
+                                <img src="https://api.dicebear.com/7.x/@(s.Type == ChatApp.Shared.Enums.SessionType.Group ? "identicon" : "adventurer")/svg?seed=@s.AvatarSeed" alt="" class="avatar" />
                                 <span class="badge">@s.UnreadCount</span>
                             </div>
                         }
                         else
                         {
-                            <img src="https://api.dicebear.com/7.x/@(s.Type == ChatApp.Shared.Enums.SessionType.Group ? "identicon" : "bottts")/svg?seed=@s.AvatarSeed" alt="" class="avatar" />
+                            <img src="https://api.dicebear.com/7.x/@(s.Type == ChatApp.Shared.Enums.SessionType.Group ? "identicon" : "adventurer")/svg?seed=@s.AvatarSeed" alt="" class="avatar" />
                         }
                         <div class="session-info">
                             <div class="session-top">
@@ -91,7 +93,7 @@
                 @foreach (var f in friends)
                 {
                     <div class="contact-item" data-friend-id="@f.UserId">
-                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=@f.AvatarSeed" alt="" class="avatar" />
+                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=@f.AvatarSeed" alt="" class="avatar" />
                         <div class="contact-info">
                             <div class="contact-top">
                                 <span class="nickname">@f.Nickname</span>
@@ -133,6 +135,7 @@
                     <span class="chat-status" id="chat-status">@(activeSession?.OnlineStatus ?? "")</span>
                 </div>
                 <div class="chat-actions">
+                    <button class="action-btn hidden" id="btn-view-members">👥 群成员</button>
                     <button class="action-btn hidden" id="btn-delete-friend">🗑️ 删除好友</button>
                 </div>
             </header>
@@ -155,8 +158,9 @@
             </div>
 
             <footer class="chat-footer" id="chat-footer" style="@(activeSession == null ? "display:none" : "")">
+                <div class="emoji-picker hidden" id="emoji-picker"></div>
                 <div class="toolbar">
-                    <button class="tool-btn" title="表情">😀</button>
+                    <button class="tool-btn" id="btn-emoji" title="表情">😀</button>
                     <button class="tool-btn" id="btn-file" title="发送文件">📎</button>
                     <input type="file" id="file-input" class="hidden" />
                 </div>
@@ -239,6 +243,66 @@
                 <button class="btn-sm btn-sm-primary" id="btn-create-group">创建群聊</button>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- 退出确认弹窗 -->
+<div class="modal-overlay" id="modal-logout">
+    <div class="modal-box" style="max-width:320px;">
+        <div class="modal-header">
+            <span>退出登录</span>
+            <button class="modal-close" data-close="modal-logout">&times;</button>
+        </div>
+        <div class="modal-body" style="padding:20px;text-align:center;font-size:15px;color:var(--text-main);">
+            确定要退出登录吗？
+        </div>
+        <div class="modal-footer">
+            <button class="btn-sm btn-sm-outline" data-close="modal-logout">取消</button>
+            <button class="btn-sm btn-sm-danger" id="btn-confirm-logout">确认退出</button>
+        </div>
+    </div>
+</div>
+
+<!-- 个人信息编辑弹窗 -->
+<div class="modal-overlay" id="modal-profile">
+    <div class="modal-box">
+        <div class="modal-header">
+            <span>编辑个人信息</span>
+            <button class="modal-close" data-close="modal-profile">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="text-align:center;margin-bottom:16px;">
+                <img id="profile-avatar-preview"
+                     src="https://api.dicebear.com/7.x/adventurer/svg?seed=@user!.AvatarSeed"
+                     alt="头像" style="width:72px;height:72px;border-radius:50%;border:2px solid var(--border-color);" />
+            </div>
+            <div class="form-group">
+                <label>昵称</label>
+                <input type="text" id="profile-nickname" value="@user!.Nickname" placeholder="输入昵称" />
+            </div>
+            <div class="form-group">
+                <label>头像种子（随机文字生成头像）</label>
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <input type="text" id="profile-avatar-seed" value="@user!.AvatarSeed" placeholder="输入任意字符串" style="flex:1;" />
+                    <button class="btn-sm btn-sm-outline" id="btn-random-seed" type="button">随机</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-sm btn-sm-outline" data-close="modal-profile">取消</button>
+            <button class="btn-sm btn-sm-primary" id="btn-save-profile">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- 群成员弹窗 -->
+<div class="modal-overlay" id="modal-members">
+    <div class="modal-box" style="max-width:360px;">
+        <div class="modal-header">
+            <span>群成员</span>
+            <button class="modal-close" data-close="modal-members">&times;</button>
+        </div>
+        <div class="modal-body" id="members-list" style="min-height:80px;"></div>
     </div>
 </div>
 

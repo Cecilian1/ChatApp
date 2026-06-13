@@ -13,6 +13,15 @@ const ApiClient = {
         if (res.status === 401) { window.location.href = '/Account/Login'; return null; }
         return res.json();
     },
+    async put(url, body) {
+        const res = await fetch(url, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        if (res.status === 401) { window.location.href = '/Account/Login'; return null; }
+        return res.json();
+    },
     async del(url) {
         const res = await fetch(url, { method: 'DELETE' });
         if (res.status === 401) { window.location.href = '/Account/Login'; return null; }

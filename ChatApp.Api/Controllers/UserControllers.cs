@@ -1,9 +1,37 @@
+using ChatApp.Api.Data;
 using ChatApp.Api.Services;
 using ChatApp.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatApp.Api.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+[Authorize(Roles = "user")]
+public class UserController(AppDbContext db) : ControllerBase
+{
+    private long UserId => User.GetUserId();
+
+    [HttpPut("profile")]
+    public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileRequest request)
+    {
+        var user = await db.Users.FindAsync(UserId);
+        if (user is null) return NotFound();
+        if (!string.IsNullOrWhiteSpace(request.Nickname))
+            user.Nickname = request.Nickname.Trim();
+        if (!string.IsNullOrWhiteSpace(request.AvatarSeed))
+            user.AvatarSeed = request.AvatarSeed.Trim();
+        await db.SaveChangesAsync();
+        return Ok(AuthService.MapUser(user));
+    }
+}
+
+public class UpdateProfileRequest
+{
+    public string? Nickname { get; set; }
+    public string? AvatarSeed { get; set; }
+}
 
 [ApiController]
 [Route("api/[controller]")]
@@ -84,6 +112,10 @@ public class GroupController(IGroupBusinessService groups) : ControllerBase
         var (success, error, group) = await groups.CreateGroupAsync(UserId, request.Name, memberIds);
         return success ? Ok(group) : BadRequest(ApiResult.Fail(error!));
     }
+
+    [HttpGet("{groupId}/members")]
+    public async Task<IActionResult> GetMembers(long groupId) =>
+        Ok(await groups.GetMembersAsync(UserId, groupId));
 }
 
 public class CreateGroupRequest

@@ -187,6 +187,7 @@ public class ChatBusinessService(AppDbContext db) : IChatBusinessService
             .Where(c => c.Type == SessionType.Private && (c.UserAId == userId || c.UserBId == userId))
             .Select(c => c.Id).ToListAsync();
         var groupIds = await db.GroupMembers
+            .Where(m => m.UserId == userId)
             .Join(db.Conversations.Where(c => c.Type == SessionType.Group),
                 m => m.GroupId, c => c.GroupId, (m, c) => c.Id).ToListAsync();
         return privateIds.Concat(groupIds).Distinct().ToList();

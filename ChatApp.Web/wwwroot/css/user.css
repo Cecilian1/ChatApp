@@ -335,6 +335,7 @@ body.auth-page {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    position: relative;
 }
 
 .toolbar {
@@ -510,7 +511,7 @@ body.auth-page {
     margin-bottom: 6px;
 }
 
-.form-group input, .form-group textarea {
+.form-group input:not([type="checkbox"]):not([type="radio"]), .form-group textarea {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid var(--border-color);
@@ -518,7 +519,7 @@ body.auth-page {
     font-size: 14px;
     outline: none;
 }
-.form-group input:focus, .form-group textarea:focus {
+.form-group input:not([type="checkbox"]):not([type="radio"]):focus, .form-group textarea:focus {
     border-color: var(--primary-color);
 }
 
@@ -610,13 +611,66 @@ body.auth-page {
     padding: 8px;
 }
 
-.group-member-select label {
+.form-group .group-member-select label {
     display: flex;
     align-items: center;
     gap: 8px;
     padding: 6px 4px;
     font-size: 13px;
     cursor: pointer;
+    margin-bottom: 0;
 }
 
 .hidden { display: none !important; }
+
+/* Emoji picker */
+.emoji-picker {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 280px;
+    max-height: 180px;
+    overflow-y: auto;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    z-index: 100;
+    gap: 2px;
+}
+.emoji-item {
+    font-size: 20px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+}
+.emoji-item:hover { background: var(--bg-hover); }
+
+/* Group member list */
+.member-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+.member-item:last-child { border-bottom: none; }
+.member-name { font-size: 14px; color: var(--text-main); }
+.member-badge {
+    display: inline-block;
+    font-size: 11px;
+    background: var(--primary-color);
+    color: #fff;
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
