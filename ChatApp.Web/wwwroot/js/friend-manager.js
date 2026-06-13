@@ -47,12 +47,45 @@ const FriendManager = {
             }
         });
 
-        document.getElementById('btn-delete-friend')?.addEventListener('click', async () => {
+        // Delete from chat header button
+        document.getElementById('btn-delete-friend')?.addEventListener('click', () => {
             const sessionEl = document.querySelector('.session-item.active');
             const friendId = sessionEl?.dataset.targetUserId;
-            if (!friendId || !confirm('确定删除该好友？')) return;
+            const friendName = sessionEl?.dataset.title || '该好友';
+            if (!friendId) return;
+            this.openDeleteConfirm(friendId, friendName, app);
+        });
+
+        // Delete from contact list button
+        document.getElementById('contact-list')?.addEventListener('click', e => {
+            const btn = e.target.closest('.btn-delete-contact');
+            if (!btn) return;
+            const item = btn.closest('.contact-item');
+            const friendId = item?.dataset.friendId;
+            const friendName = item?.dataset.friendName || '该好友';
+            if (!friendId) return;
+            this.openDeleteConfirm(friendId, friendName, app);
+        });
+
+        document.getElementById('btn-confirm-delete-friend')?.addEventListener('click', async () => {
+            const friendId = document.getElementById('btn-confirm-delete-friend').dataset.friendId;
+            if (!friendId) return;
             const res = await ApiClient.del(`/api/Friend/${friendId}`);
-            if (res?.success) app.refreshSessions();
+            document.getElementById('modal-delete-friend').classList.remove('show');
+            if (res?.success !== false) {
+                // Remove from contact list
+                document.querySelector(`#contact-list .contact-item[data-friend-id="${friendId}"]`)?.remove();
+                // If this friend's session is active, clear the chat area
+                const activeSession = document.querySelector('.session-item.active');
+                if (activeSession?.dataset.targetUserId === friendId) {
+                    document.getElementById('chat-header').style.display = 'none';
+                    document.getElementById('chat-footer').style.display = 'none';
+                    document.getElementById('message-container').innerHTML =
+                        '<div class="empty-state" id="chat-empty"><span class="empty-state-icon">💬</span><span>选择一个会话开始聊天</span></div>';
+                    app.state.activeSessionId = null;
+                }
+                await Promise.all([app.refreshSessions(), app.refreshContacts()]);
+            }
         });
 
         document.getElementById('contact-search')?.addEventListener('input', e => {
@@ -62,6 +95,12 @@ const FriendManager = {
                 item.style.display = name.includes(q) ? '' : 'none';
             });
         });
+    },
+
+    openDeleteConfirm(friendId, friendName, app) {
+        document.getElementById('delete-friend-name').textContent = friendName;
+        document.getElementById('btn-confirm-delete-friend').dataset.friendId = friendId;
+        document.getElementById('modal-delete-friend').classList.add('show');
     },
 
     ensureRequestEmptyState() {

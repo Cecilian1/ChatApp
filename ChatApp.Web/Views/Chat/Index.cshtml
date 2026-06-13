@@ -92,7 +92,7 @@
             <div class="contact-list" id="contact-list">
                 @foreach (var f in friends)
                 {
-                    <div class="contact-item" data-friend-id="@f.UserId">
+                    <div class="contact-item" data-friend-id="@f.UserId" data-friend-name="@f.Nickname">
                         <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=@f.AvatarSeed" alt="" class="avatar" />
                         <div class="contact-info">
                             <div class="contact-top">
@@ -100,6 +100,7 @@
                                 <span class="time">@f.OnlineStatus</span>
                             </div>
                         </div>
+                        <button class="btn-delete-contact" title="删除好友">🗑️</button>
                     </div>
                 }
             </div>
@@ -242,6 +243,23 @@
                 </div>
                 <button class="btn-sm btn-sm-primary" id="btn-create-group">创建群聊</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除好友确认弹窗 -->
+<div class="modal-overlay" id="modal-delete-friend">
+    <div class="modal-box" style="max-width:320px;">
+        <div class="modal-header">
+            <span>删除好友</span>
+            <button class="modal-close" data-close="modal-delete-friend">&times;</button>
+        </div>
+        <div class="modal-body" style="padding:20px;text-align:center;font-size:15px;color:var(--text-main);">
+            确定删除好友 <strong id="delete-friend-name"></strong> 吗？删除后将清除聊天记录。
+        </div>
+        <div class="modal-footer">
+            <button class="btn-sm btn-sm-outline" data-close="modal-delete-friend">取消</button>
+            <button class="btn-sm btn-sm-danger" id="btn-confirm-delete-friend">确认删除</button>
         </div>
     </div>
 </div>

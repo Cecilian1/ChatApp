@@ -331,6 +331,29 @@ const ChatApp = {
         }
     },
 
+    async refreshContacts() {
+        const friends = await ApiClient.get('/api/Friend');
+        const list = document.getElementById('contact-list');
+        if (!list || !friends) return;
+        list.innerHTML = '';
+        friends.forEach(f => {
+            const div = document.createElement('div');
+            div.className = 'contact-item';
+            div.dataset.friendId = f.userId;
+            div.dataset.friendName = f.nickname;
+            div.innerHTML = `
+                <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=${f.avatarSeed}" alt="" class="avatar" />
+                <div class="contact-info">
+                    <div class="contact-top">
+                        <span class="nickname">${f.nickname}</span>
+                        <span class="time">${f.onlineStatus || ''}</span>
+                    </div>
+                </div>
+                <button class="btn-delete-contact" title="删除好友">🗑️</button>`;
+            list.appendChild(div);
+        });
+    },
+
     async refreshSessions() {
         const sessions = await ApiClient.get('/api/Chat/sessions');
         const list = document.getElementById('session-list');

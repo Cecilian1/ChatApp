@@ -94,3 +94,5 @@ yarn-error.log
 # Entity Framework 迁移临时文件
 # ========================
 efbundle
+
+global.json
