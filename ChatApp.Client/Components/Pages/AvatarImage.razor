@@ -1,0 +1,10 @@
+@inject ApiSettings Settings
+
+<img src="@AvatarUrls.GetSvgUrl(Settings.BaseUrl, Seed, IsGroup)" alt="@Alt" class="@CssClass" />
+
+@code {
+    [Parameter, EditorRequired] public string Seed { get; set; } = default!;
+    [Parameter] public bool IsGroup { get; set; }
+    [Parameter] public string CssClass { get; set; } = "avatar";
+    [Parameter] public string Alt { get; set; } = "";
+}

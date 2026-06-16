@@ -1,0 +1,736 @@
+@page "/chat"
+@inject IUserAuthService Auth
+@inject IChatAppService ChatService
+@inject ChatHubService Hub
+@inject NavigationManager Nav
+@implements IDisposable
+
+<div class="im-container">
+    <aside class="nav-sidebar">
+        <div class="user-avatar-wrapper" title="@(_user?.Nickname ?? "")">
+            <AvatarImage Seed="@(_user?.AvatarSeed ?? "Felix")" CssClass="avatar" Alt="头像" />
+            <span class="status-dot online"></span>
+        </div>
+        <nav class="nav-menu">
+            <button class="nav-item @TabClass("chat")" @onclick='() => SwitchTab("chat")' title="聊天">💬</button>
+            <button class="nav-item @TabClass("contacts")" @onclick='() => SwitchTab("contacts")' title="通讯录">👥</button>
+            <button class="nav-item @TabClass("requests")" @onclick='() => SwitchTab("requests")' title="好友申请">📩</button>
+            <button class="nav-item @TabClass("history")" @onclick='() => SwitchTab("history")' title="历史记录">⏳</button>
+        </nav>
+        <div class="nav-bottom">
+            <button class="nav-item" title="个人信息" @onclick="() => _showProfile = true">⚙️</button>
+            <button class="nav-item" title="退出登录" @onclick="() => _showLogout = true">🚪</button>
+        </div>
+    </aside>
+
+    <section class="list-sidebar">
+        @if (_tab == "chat")
+        {
+            <div class="list-panel active">
+                <div class="search-header">
+                    <input type="text" placeholder="搜索好友/群聊..." class="search-input" @bind="_sessionSearch" @bind:event="oninput" />
+                    <button class="add-btn" title="添加好友/建群" @onclick="OpenAddModal">+</button>
+                </div>
+                <div class="session-list">
+                    @foreach (var s in FilteredSessions)
+                    {
+                        <div class="session-item @(s.Id == _activeSessionId ? "active" : "")" @onclick="() => SelectSession(s)">
+                            @if (s.UnreadCount > 0)
+                            {
+                                <div class="avatar-wrapper">
+                                    <AvatarImage Seed="@s.AvatarSeed" IsGroup="@(s.Type == SessionType.Group)" CssClass="avatar" />
+                                    <span class="badge">@s.UnreadCount</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <AvatarImage Seed="@s.AvatarSeed" IsGroup="@(s.Type == SessionType.Group)" CssClass="avatar" />
+                            }
+                            <div class="session-info">
+                                <div class="session-top">
+                                    <span class="nickname">@s.Title</span>
+                                    <span class="time">@FormatTime(s.LastMessageTime)</span>
+                                </div>
+                                <div class="session-bottom">
+                                    <span class="last-msg">@s.LastMessage</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else if (_tab == "contacts")
+        {
+            <div class="list-panel active">
+                <div class="search-header">
+                    <input type="text" placeholder="搜索好友..." class="search-input" @bind="_contactSearch" @bind:event="oninput" />
+                </div>
+                <div class="contact-list">
+                    @foreach (var f in FilteredFriends)
+                    {
+                        <div class="contact-item">
+                            <AvatarImage Seed="@f.AvatarSeed" CssClass="avatar" />
+                            <div class="contact-info">
+                                <div class="contact-top">
+                                    <span class="nickname">@f.Nickname</span>
+                                    <span class="time">@f.OnlineStatus</span>
+                                </div>
+                            </div>
+                            <button class="btn-delete-contact" title="删除好友" @onclick="() => ConfirmDeleteFriend(f)">🗑️</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else if (_tab == "requests")
+        {
+            <div class="list-panel active">
+                <div class="search-header sidebar-section-header">
+                    <span class="sidebar-section-title">好友申请</span>
+                </div>
+                <p class="sidebar-section-desc">在右侧查看并处理待审核申请</p>
+            </div>
+        }
+        else if (_tab == "history")
+        {
+            <div class="list-panel active">
+                <div class="history-filter">
+                    <input type="text" placeholder="关键词..." @bind="_historyKeyword" />
+                    <select @bind="_historyRange">
+                        <option value="">全部</option>
+                        <option value="today">今天</option>
+                        <option value="3days">近3天</option>
+                        <option value="week">近1周</option>
+                    </select>
+                    <button class="btn-sm btn-sm-primary" @onclick="SearchHistory">查询</button>
+                </div>
+                <div class="history-list">
+                    @foreach (var h in _historyItems)
+                    {
+                        <div class="history-item @(_highlightedHistoryId == h.Id ? "active" : "")"
+                             @onclick="() => HighlightHistory(h.Id)">
+                            <div class="history-info">
+                                <div class="history-top">
+                                    <span class="nickname">@h.SenderName</span>
+                                    <span class="time">@FormatTime(h.SentAt)</span>
+                                </div>
+                                <span class="history-preview">@GetHistoryPreview(h)</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </section>
+
+    <section class="main-panel">
+        @if (_tab == "chat")
+        {
+            <div class="main-view active chat-panel">
+                @if (_activeSession is not null)
+                {
+                    <header class="chat-header">
+                        <div class="chat-title-box">
+                            <span class="chat-title">@_activeSession.Title</span>
+                            <span class="chat-status">@_activeSession.OnlineStatus</span>
+                        </div>
+                        <div class="chat-actions">
+                            @if (_activeSession.Type == SessionType.Group)
+                            {
+                                <button class="action-btn" @onclick="ShowGroupMembers">👥 群成员</button>
+                            }
+                            @if (_activeSession.Type == SessionType.Private && !string.IsNullOrEmpty(_activeSession.TargetUserId))
+                            {
+                                <button class="action-btn" @onclick="() => ConfirmDeleteFriendBySession()">🗑️ 删除好友</button>
+                            }
+                        </div>
+                    </header>
+                    <div class="message-container" @ref="_messageContainer">
+                        @if (_messages.Count == 0)
+                        {
+                            <div class="empty-state"><span>暂无消息，发送第一条吧</span></div>
+                        }
+                        else
+                        {
+                            @foreach (var m in _messages)
+                            {
+                                <MessageBubble Message="m" UserSeed="@(_user?.AvatarSeed ?? "Felix")" ResolveUrl="@((url) => ChatService.ResolveUrl(url))" />
+                            }
+                        }
+                    </div>
+                    <footer class="chat-footer">
+                        @if (_showEmoji)
+                        {
+                            <div class="emoji-picker">
+                                @foreach (var e in Emojis)
+                                {
+                                    <span class="emoji-item" @onclick="() => InsertEmoji(e)">@e</span>
+                                }
+                            </div>
+                        }
+                        <div class="toolbar">
+                            <button class="tool-btn" title="表情" @onclick="() => _showEmoji = !_showEmoji">😀</button>
+                            <label class="tool-btn file-upload-label" title="发送文件">
+                                📎
+                                <InputFile OnChange="OnFileSelected" />
+                            </label>
+                        </div>
+                        <div class="input-area">
+                            <textarea placeholder="请输入消息内容... (Ctrl + Enter 发送)" class="chat-textarea"
+                                      @bind="_inputText" @bind:event="oninput"
+                                      @onkeydown="OnInputKeyDown"></textarea>
+                            <button class="send-btn" @onclick="SendText">发送(S)</button>
+                        </div>
+                    </footer>
+                }
+                else
+                {
+                    <div class="empty-state" style="height:100%;">
+                        <span class="empty-state-icon">💬</span>
+                        <span>选择一个会话开始聊天</span>
+                    </div>
+                }
+            </div>
+        }
+        else if (_tab == "contacts")
+        {
+            <div class="main-view active contacts-panel">
+                <div class="panel-header">通讯录</div>
+                <div class="contacts-main-body">
+                    <div class="empty-state">
+                        <span class="empty-state-icon">👥</span>
+                        <span>在左侧选择好友，切换到「聊天」可发起会话</span>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (_tab == "requests")
+        {
+            <div class="main-view active requests-panel">
+                <div class="panel-header">好友申请</div>
+                <div class="requests-main-body">
+                    @if (_pendingRequests.Count == 0)
+                    {
+                        <div class="empty-state"><span>暂无待处理的好友申请</span></div>
+                    }
+                    @foreach (var r in _pendingRequests)
+                    {
+                        <div class="request-card">
+                            <span><strong>@r.FromNickname</strong> (@r.FromUsername) 请求添加您为好友</span>
+                            <div class="request-actions">
+                                <button class="btn-sm btn-sm-primary" @onclick="() => AcceptRequest(r.Id)">同意</button>
+                                <button class="btn-sm btn-sm-danger" @onclick="() => RejectRequest(r.Id)">拒绝</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else if (_tab == "history")
+        {
+            <div class="main-view active history-panel">
+                <div class="panel-header">历史消息</div>
+                <div class="history-main-body">
+                    @if (_historyItems.Count == 0)
+                    {
+                        <div class="empty-state"><span>暂无历史消息</span></div>
+                    }
+                    else
+                    {
+                        @foreach (var h in _historyItems)
+                        {
+                            <div class="history-row @(_highlightedHistoryId == h.Id ? "active" : "")"
+                                 data-message-id="@h.Id">
+                                <div>
+                                    <strong>@h.SenderName</strong>
+                                    <span style="color:#999;font-size:12px;margin-left:8px;">@FormatDateTime(h.SentAt)</span>
+                                    <p style="margin-top:4px;font-size:13px;">@GetHistoryPreview(h)</p>
+                                </div>
+                                <button class="btn-sm btn-sm-danger" @onclick="() => DeleteHistoryMessage(h.Id)">删除</button>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </section>
+</div>
+
+@if (_showAdd)
+{
+    <div class="modal-overlay show" @onclick="CloseAddOnBackdrop">
+        <div class="modal-box" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <span>添加好友 / 建群</span>
+                <button class="modal-close" @onclick="() => _showAdd = false">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex;gap:8px;margin-bottom:12px;">
+                    <button class="btn-sm @(_addMode == "friend" ? "btn-sm-primary" : "btn-sm-outline")" @onclick='() => _addMode = "friend"'>添加好友</button>
+                    <button class="btn-sm @(_addMode == "group" ? "btn-sm-primary" : "btn-sm-outline")" @onclick='() => _addMode = "group"'>创建群聊</button>
+                </div>
+                @if (_addMode == "friend")
+                {
+                    <input type="text" class="search-input" placeholder="搜索用户账号或昵称..." style="width:100%;margin-bottom:12px;" @bind="_searchKeyword" />
+                    <button class="btn-sm btn-sm-primary" @onclick="SearchUsers">搜索</button>
+                    @if (!string.IsNullOrEmpty(_addError))
+                    {
+                        <div class="alert alert-error" style="margin-top:8px;">@_addError</div>
+                    }
+                    <div style="margin-top:12px;">
+                        @foreach (var u in _searchResults)
+                        {
+                            <div class="search-result-item">
+                                <AvatarImage Seed="@u.AvatarSeed" CssClass="avatar-sm" />
+                                <span>@u.Nickname (@u.Username)</span>
+                                <button class="btn-sm btn-sm-primary" @onclick="() => SendFriendRequest(u.Id)">添加</button>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label>群名称</label>
+                        <input type="text" @bind="_groupName" placeholder="输入群名称" />
+                    </div>
+                    <div class="form-group">
+                        <label>选择成员</label>
+                        <div class="group-member-select">
+                            @foreach (var f in _friends)
+                            {
+                                <label>
+                                    <input type="checkbox" checked="@_selectedMembers.Contains(f.UserId)"
+                                           @onchange="e => ToggleMember(f.UserId, (bool)(e.Value ?? false))" />
+                                    @f.Nickname
+                                </label>
+                            }
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(_addError))
+                    {
+                        <div class="alert alert-error">@_addError</div>
+                    }
+                    <button class="btn-sm btn-sm-primary" @onclick="CreateGroup">创建群聊</button>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@if (_showDeleteFriend)
+{
+    <div class="modal-overlay show" @onclick="() => _showDeleteFriend = false">
+        <div class="modal-box" style="max-width:320px;" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <span>删除好友</span>
+                <button class="modal-close" @onclick="() => _showDeleteFriend = false">&times;</button>
+            </div>
+            <div class="modal-body" style="padding:20px;text-align:center;">
+                确定删除好友 <strong>@_deleteFriendName</strong> 吗？删除后将清除聊天记录。
+            </div>
+            <div class="modal-footer">
+                <button class="btn-sm btn-sm-outline" @onclick="() => _showDeleteFriend = false">取消</button>
+                <button class="btn-sm btn-sm-danger" @onclick="DoDeleteFriend">确认删除</button>
+            </div>
+        </div>
+    </div>
+}
+
+@if (_showLogout)
+{
+    <div class="modal-overlay show" @onclick="() => _showLogout = false">
+        <div class="modal-box" style="max-width:320px;" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <span>退出登录</span>
+                <button class="modal-close" @onclick="() => _showLogout = false">&times;</button>
+            </div>
+            <div class="modal-body" style="padding:20px;text-align:center;">确定要退出登录吗？</div>
+            <div class="modal-footer">
+                <button class="btn-sm btn-sm-outline" @onclick="() => _showLogout = false">取消</button>
+                <button class="btn-sm btn-sm-danger" @onclick="DoLogout">确认退出</button>
+            </div>
+        </div>
+    </div>
+}
+
+@if (_showProfile)
+{
+    <div class="modal-overlay show" @onclick="() => _showProfile = false">
+        <div class="modal-box" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <span>编辑个人信息</span>
+                <button class="modal-close" @onclick="() => _showProfile = false">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align:center;margin-bottom:16px;">
+                    <AvatarImage Seed="@_profileSeed" CssClass="avatar-lg" Alt="头像" />
+                </div>
+                <div class="form-group">
+                    <label>昵称</label>
+                    <input type="text" @bind="_profileNickname" placeholder="输入昵称" />
+                </div>
+                <div class="form-group">
+                    <label>头像种子（随机文字生成头像）</label>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <input type="text" @bind="_profileSeed" @bind:after="OnProfileSeedChanged" placeholder="输入任意字符串" style="flex:1;" />
+                        <button class="btn-sm btn-sm-outline" type="button" @onclick="RandomSeed">随机</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-sm btn-sm-outline" @onclick="() => _showProfile = false">取消</button>
+                <button class="btn-sm btn-sm-primary" @onclick="SaveProfile">保存</button>
+            </div>
+        </div>
+    </div>
+}
+
+@if (_showMembers)
+{
+    <div class="modal-overlay show" @onclick="() => _showMembers = false">
+        <div class="modal-box" style="max-width:360px;" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <span>群成员</span>
+                <button class="modal-close" @onclick="() => _showMembers = false">&times;</button>
+            </div>
+            <div class="modal-body" style="min-height:80px;">
+                @if (_groupMembers.Count == 0)
+                {
+                    <div style="text-align:center;padding:16px;color:var(--text-muted)">暂无成员数据</div>
+                }
+                @foreach (var m in _groupMembers)
+                {
+                    <div class="member-item">
+                        <AvatarImage Seed="@m.AvatarSeed" CssClass="avatar" />
+                        <span class="member-name">@m.Nickname @(m.IsCreator ? "(群主)" : "")</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private UserDto? _user;
+    private string _tab = "chat";
+    private string? _activeSessionId;
+    private ChatSessionDto? _activeSession;
+    private List<ChatSessionDto> _sessions = [];
+    private List<MessageDto> _messages = [];
+    private List<FriendDto> _friends = [];
+    private List<FriendRequestDto> _pendingRequests = [];
+    private List<MessageDto> _historyItems = [];
+    private string? _highlightedHistoryId;
+    private List<UserDto> _searchResults = [];
+    private List<GroupMemberDto> _groupMembers = [];
+
+    private string _sessionSearch = "";
+    private string _contactSearch = "";
+    private string _inputText = "";
+    private string _historyKeyword = "";
+    private string _historyRange = "";
+    private string _searchKeyword = "";
+    private string _groupName = "";
+    private string _addMode = "friend";
+    private string? _addError;
+    private HashSet<string> _selectedMembers = [];
+
+    private bool _showAdd;
+    private bool _showDeleteFriend;
+    private bool _showLogout;
+    private bool _showProfile;
+    private bool _showMembers;
+    private bool _showEmoji;
+    private string? _deleteFriendId;
+    private string _deleteFriendName = "";
+
+    private string _profileNickname = "";
+    private string _profileSeed = "";
+
+    private ElementReference _messageContainer;
+
+    private static readonly string[] Emojis =
+    [
+        "😀","😂","😍","😎","😊","😭","😅","🤣","😆","😋",
+        "👍","👎","🙏","🤝","💪","❤️","🎉","🔥","💯","✅",
+        "😤","😡","🥰","🤔","😴","🤗","🤩","😱","🥺","😏",
+        "👋","🤦","🤷","💀","🫡","😇","🫶","🙄","😬","🥳",
+        "🐶","🐱","🐸","🦄","🌈","⭐","🍕","🎮","🚀","💎"
+    ];
+
+    private IEnumerable<ChatSessionDto> FilteredSessions =>
+        string.IsNullOrWhiteSpace(_sessionSearch)
+            ? _sessions
+            : _sessions.Where(s => s.Title.Contains(_sessionSearch, StringComparison.OrdinalIgnoreCase));
+
+    private IEnumerable<FriendDto> FilteredFriends =>
+        string.IsNullOrWhiteSpace(_contactSearch)
+            ? _friends
+            : _friends.Where(f => f.Nickname.Contains(_contactSearch, StringComparison.OrdinalIgnoreCase));
+
+    protected override async Task OnInitializedAsync()
+    {
+        _user = Auth.CurrentUser;
+        _profileNickname = _user?.Nickname ?? "";
+        _profileSeed = _user?.AvatarSeed ?? "Felix";
+        Hub.MessageReceived += OnMessageReceived;
+        await LoadInitialDataAsync();
+    }
+
+    private async Task LoadInitialDataAsync()
+    {
+        _sessions = await ChatService.GetSessionsAsync();
+        _friends = await ChatService.GetFriendsAsync();
+        _pendingRequests = await ChatService.GetPendingRequestsAsync();
+        if (_sessions.Count > 0 && _activeSessionId is null)
+            await SelectSession(_sessions[0]);
+    }
+
+    private async Task SelectSession(ChatSessionDto session)
+    {
+        if (_activeSessionId is not null && _activeSessionId != session.Id)
+            await Hub.LeaveConversationAsync(_activeSessionId);
+
+        _activeSessionId = session.Id;
+        _activeSession = session;
+        session.UnreadCount = 0;
+        _messages = await ChatService.GetMessagesAsync(session.Id);
+        await Hub.JoinConversationAsync(session.Id);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task SendText()
+    {
+        if (string.IsNullOrWhiteSpace(_inputText) || _activeSessionId is null) return;
+        var content = _inputText.Trim();
+        _inputText = "";
+        var msg = await ChatService.SendMessageAsync(_activeSessionId, content);
+        if (msg is not null)
+        {
+            _messages.Add(msg);
+            UpdateSessionPreview(_activeSessionId, content);
+        }
+    }
+
+    private async Task OnFileSelected(InputFileChangeEventArgs e)
+    {
+        if (_activeSessionId is null || e.FileCount == 0) return;
+        var file = e.File;
+        await using var stream = file.OpenReadStream(maxAllowedSize: 20 * 1024 * 1024);
+        var upload = await ChatService.UploadFileAsync(stream, file.Name);
+        if (upload?.Url is null) return;
+
+        var fileUrl = ChatService.ResolveUrl(upload.Url);
+        var msg = await ChatService.SendFileMessageAsync(_activeSessionId, upload.FileName ?? file.Name, upload.SizeBytes, fileUrl);
+        if (msg is not null)
+        {
+            _messages.Add(msg);
+            UpdateSessionPreview(_activeSessionId, $"[文件] {upload.FileName}");
+        }
+    }
+
+    private void OnMessageReceived(MessageDto msg)
+    {
+        var sid = msg.SessionId;
+        var preview = msg.Type == MessageType.File ? $"[文件] {msg.FileName}" : msg.Content;
+
+        if (msg.SenderId == _user?.Id)
+        {
+            UpdateSessionPreview(sid, preview);
+            return;
+        }
+
+        if (sid != _activeSessionId)
+        {
+            var session = _sessions.FirstOrDefault(s => s.Id == sid);
+            if (session is not null) session.UnreadCount++;
+            UpdateSessionPreview(sid, preview);
+            InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        _messages.Add(msg);
+        UpdateSessionPreview(sid, preview);
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void UpdateSessionPreview(string sessionId, string text)
+    {
+        var session = _sessions.FirstOrDefault(s => s.Id == sessionId);
+        if (session is null) return;
+        session.LastMessage = text;
+        session.LastMessageTime = DateTime.Now;
+    }
+
+    private async Task SwitchTab(string tab)
+    {
+        _tab = tab;
+        if (tab == "history") await SearchHistory();
+        if (tab == "requests") _pendingRequests = await ChatService.GetPendingRequestsAsync();
+    }
+
+    private string TabClass(string tab) => _tab == tab ? "active" : "";
+
+    private void OpenAddModal()
+    {
+        _showAdd = true;
+        _addMode = "friend";
+        _addError = null;
+        _searchResults = [];
+        _selectedMembers = _friends.Select(f => f.UserId).ToHashSet();
+    }
+
+    private void CloseAddOnBackdrop(MouseEventArgs e) => _showAdd = false;
+
+    private async Task SearchUsers()
+    {
+        _addError = null;
+        _searchResults = await ChatService.SearchUsersAsync(_searchKeyword.Trim());
+    }
+
+    private async Task SendFriendRequest(string targetUserId)
+    {
+        var (success, error) = await ChatService.SendFriendRequestAsync(targetUserId);
+        _addError = success ? "好友申请已发送" : error;
+    }
+
+    private void ToggleMember(string userId, bool selected)
+    {
+        if (selected) _selectedMembers.Add(userId);
+        else _selectedMembers.Remove(userId);
+    }
+
+    private async Task CreateGroup()
+    {
+        if (string.IsNullOrWhiteSpace(_groupName))
+        {
+            _addError = "请输入群名称";
+            return;
+        }
+        var (success, error, _) = await ChatService.CreateGroupAsync(_groupName.Trim(), _selectedMembers.ToList());
+        if (success)
+        {
+            _showAdd = false;
+            _sessions = await ChatService.GetSessionsAsync();
+        }
+        else
+        {
+            _addError = error;
+        }
+    }
+
+    private async Task AcceptRequest(string requestId)
+    {
+        await ChatService.AcceptRequestAsync(requestId);
+        _pendingRequests = await ChatService.GetPendingRequestsAsync();
+        _friends = await ChatService.GetFriendsAsync();
+        _sessions = await ChatService.GetSessionsAsync();
+    }
+
+    private async Task RejectRequest(string requestId)
+    {
+        await ChatService.RejectRequestAsync(requestId);
+        _pendingRequests = await ChatService.GetPendingRequestsAsync();
+    }
+
+    private void ConfirmDeleteFriend(FriendDto friend)
+    {
+        _deleteFriendId = friend.UserId;
+        _deleteFriendName = friend.Nickname;
+        _showDeleteFriend = true;
+    }
+
+    private void ConfirmDeleteFriendBySession()
+    {
+        if (_activeSession?.TargetUserId is null) return;
+        var friend = _friends.FirstOrDefault(f => f.UserId == _activeSession.TargetUserId);
+        _deleteFriendId = _activeSession.TargetUserId;
+        _deleteFriendName = friend?.Nickname ?? _activeSession.Title;
+        _showDeleteFriend = true;
+    }
+
+    private async Task DoDeleteFriend()
+    {
+        if (_deleteFriendId is null) return;
+        await ChatService.RemoveFriendAsync(_deleteFriendId);
+        _showDeleteFriend = false;
+        _friends = await ChatService.GetFriendsAsync();
+        _sessions = await ChatService.GetSessionsAsync();
+        if (_activeSession?.TargetUserId == _deleteFriendId)
+        {
+            _activeSession = null;
+            _activeSessionId = null;
+            _messages = [];
+        }
+    }
+
+    private async Task ShowGroupMembers()
+    {
+        if (_activeSession?.GroupId is null) return;
+        _groupMembers = await ChatService.GetGroupMembersAsync(_activeSession.GroupId);
+        _showMembers = true;
+    }
+
+    private async Task SearchHistory()
+    {
+        _historyItems = await ChatService.QueryHistoryAsync(new MessageQueryFilter
+        {
+            Keyword = _historyKeyword,
+            TimeRange = _historyRange
+        });
+        _highlightedHistoryId = null;
+    }
+
+    private void HighlightHistory(string messageId) => _highlightedHistoryId = messageId;
+
+    private static string GetHistoryPreview(MessageDto message) =>
+        message.Type == MessageType.File ? $"[文件] {message.FileName ?? message.Content}" : message.Content;
+
+    private async Task DeleteHistoryMessage(string messageId)
+    {
+        await ChatService.DeleteMessageAsync(messageId);
+        _historyItems.RemoveAll(m => m.Id == messageId);
+        if (_highlightedHistoryId == messageId)
+            _highlightedHistoryId = null;
+    }
+
+    private void InsertEmoji(string emoji) => _inputText += emoji;
+
+    private async Task OnInputKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && e.CtrlKey)
+            await SendText();
+    }
+
+    private void RandomSeed()
+    {
+        _profileSeed = Guid.NewGuid().ToString("N")[..8];
+    }
+
+    private void OnProfileSeedChanged() { }
+
+    private async Task SaveProfile()
+    {
+        if (string.IsNullOrWhiteSpace(_profileNickname)) return;
+        var updated = await ChatService.UpdateProfileAsync(_profileNickname.Trim(), _profileSeed.Trim());
+        if (updated is not null)
+        {
+            _user = updated;
+            _showProfile = false;
+        }
+    }
+
+    private void DoLogout()
+    {
+        Auth.Logout();
+        Nav.NavigateTo("/login");
+    }
+
+    private static string FormatTime(DateTime? time) => time?.ToString("HH:mm") ?? "";
+    private static string FormatTime(DateTime time) => time.ToString("HH:mm");
+    private static string FormatDateTime(DateTime time) => time.ToLocalTime().ToString("yyyy/M/d HH:mm:ss");
+
+    public void Dispose() => Hub.MessageReceived -= OnMessageReceived;
+}

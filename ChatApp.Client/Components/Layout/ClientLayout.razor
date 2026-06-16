@@ -1,0 +1,38 @@
+@inherits LayoutComponentBase
+@implements IDisposable
+
+@Body
+
+@code {
+    [Inject] private IUserAuthService Auth { get; set; } = default!;
+    [Inject] private NavigationManager Nav { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        Auth.OnChange += OnAuthChanged;
+        EnsureRoute();
+    }
+
+    protected override void OnParametersSet() => EnsureRoute();
+
+    private void EnsureRoute()
+    {
+        var path = new Uri(Nav.Uri).AbsolutePath.TrimEnd('/');
+        if (string.IsNullOrEmpty(path)) path = "/";
+
+        var isAuthPage = path is "/" or "/login" or "/register";
+
+        if (!Auth.IsLoggedIn && !isAuthPage)
+            Nav.NavigateTo("/login");
+        else if (Auth.IsLoggedIn && isAuthPage)
+            Nav.NavigateTo("/chat");
+    }
+
+    private void OnAuthChanged()
+    {
+        EnsureRoute();
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose() => Auth.OnChange -= OnAuthChanged;
+}

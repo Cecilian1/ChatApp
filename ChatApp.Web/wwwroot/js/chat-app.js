@@ -16,6 +16,9 @@ const ChatApp = {
 
         const apiBase = app.dataset.apiBase || '';
         const jwt = app.dataset.jwt || '';
+        if (apiBase && typeof AvatarUtil !== 'undefined') {
+            AvatarUtil.init(apiBase);
+        }
         if (apiBase && typeof SignalRClient !== 'undefined') {
             SignalRClient.init(apiBase, () => jwt);
         }
@@ -210,7 +213,7 @@ const ChatApp = {
             }
             list.innerHTML = members.map(m => `
                 <div class="member-item">
-                    <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=${m.avatarSeed}" class="avatar" alt="" />
+                    <img src="${AvatarUtil.url(m.avatarSeed)}" class="avatar" alt="" />
                     <span class="member-name">${m.nickname}${m.isCreator ? ' <span class="member-badge">群主</span>' : ''}</span>
                 </div>`).join('');
         });
@@ -234,13 +237,13 @@ const ChatApp = {
         const preview = document.getElementById('profile-avatar-preview');
         seedInput?.addEventListener('input', () => {
             const seed = seedInput.value.trim() || 'default';
-            preview.src = `https://api.dicebear.com/7.x/adventurer/svg?seed=${encodeURIComponent(seed)}`;
+            preview.src = AvatarUtil.url(seed);
         });
 
         document.getElementById('btn-random-seed')?.addEventListener('click', () => {
             const seed = Math.random().toString(36).slice(2, 10);
             seedInput.value = seed;
-            preview.src = `https://api.dicebear.com/7.x/adventurer/svg?seed=${seed}`;
+            preview.src = AvatarUtil.url(seed);
         });
 
         document.getElementById('btn-save-profile')?.addEventListener('click', async () => {
@@ -255,11 +258,10 @@ const ChatApp = {
 
                 // Nav sidebar avatar
                 const navAvatar = document.querySelector('.user-avatar-wrapper img');
-                if (navAvatar) navAvatar.src = `https://api.dicebear.com/7.x/adventurer/svg?seed=${newSeed}`;
+                if (navAvatar) navAvatar.src = AvatarUtil.url(newSeed);
 
-                // Already-rendered own message bubbles
                 document.querySelectorAll('.message-right .avatar-sm').forEach(img => {
-                    img.src = `https://api.dicebear.com/7.x/adventurer/svg?seed=${newSeed}`;
+                    img.src = AvatarUtil.url(newSeed);
                 });
             }
         });
@@ -342,7 +344,7 @@ const ChatApp = {
             div.dataset.friendId = f.userId;
             div.dataset.friendName = f.nickname;
             div.innerHTML = `
-                <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=${f.avatarSeed}" alt="" class="avatar" />
+                <img src="${AvatarUtil.url(f.avatarSeed)}" alt="" class="avatar" />
                 <div class="contact-info">
                     <div class="contact-top">
                         <span class="nickname">${f.nickname}</span>
@@ -368,11 +370,10 @@ const ChatApp = {
             div.dataset.groupId = s.groupId || '';
             div.dataset.title = s.title;
             div.dataset.status = s.onlineStatus;
-            const avatarType = isGroup ? 'identicon' : 'adventurer';
             div.innerHTML = `
                 ${s.unreadCount > 0
-                ? `<div class="avatar-wrapper"><img src="https://api.dicebear.com/7.x/${avatarType}/svg?seed=${s.avatarSeed}" class="avatar" /><span class="badge">${s.unreadCount}</span></div>`
-                : `<img src="https://api.dicebear.com/7.x/${avatarType}/svg?seed=${s.avatarSeed}" class="avatar" />`}
+                ? `<div class="avatar-wrapper"><img src="${AvatarUtil.url(s.avatarSeed, isGroup)}" class="avatar" /><span class="badge">${s.unreadCount}</span></div>`
+                : `<img src="${AvatarUtil.url(s.avatarSeed, isGroup)}" class="avatar" />`}
                 <div class="session-info">
                     <div class="session-top">
                         <span class="nickname">${s.title}</span>

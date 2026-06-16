@@ -1,0 +1,86 @@
+@page "/register"
+@inject IUserAuthService Auth
+@inject NavigationManager Nav
+
+<div class="auth-page">
+    <div class="auth-card">
+        <h1 class="auth-title">注册申请</h1>
+        <p class="auth-subtitle">提交后需等待管理员审核通过</p>
+
+        @if (!string.IsNullOrEmpty(_error))
+        {
+            <div class="alert alert-error">@_error</div>
+        }
+        @if (!string.IsNullOrEmpty(_success))
+        {
+            <div class="alert alert-success">@_success</div>
+        }
+
+        <div class="login-form">
+            <div class="form-group">
+                <label>账号</label>
+                <input @bind="_username" placeholder="请输入账号" />
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <input type="password" @bind="_password" placeholder="请输入密码" />
+            </div>
+            <div class="form-group">
+                <label>昵称</label>
+                <input @bind="_nickname" placeholder="请输入昵称" />
+            </div>
+            <div class="form-group">
+                <label>备注/申请原因</label>
+                <textarea @bind="_remark" placeholder="请简要说明注册用途" style="height:100px;resize:none;"></textarea>
+            </div>
+            <button class="auth-btn" disabled="@_loading" @onclick="DoRegister">
+                @(_loading ? "提交中..." : "提交申请")
+            </button>
+        </div>
+
+        <p class="auth-link">已有账号？<a href="/login">返回登录</a></p>
+    </div>
+</div>
+
+@code {
+    private string _username = "";
+    private string _password = "";
+    private string _nickname = "";
+    private string _remark = "";
+    private string? _error;
+    private string? _success;
+    private bool _loading;
+
+    private async Task DoRegister()
+    {
+        _error = null;
+        _success = null;
+
+        if (string.IsNullOrWhiteSpace(_username) || string.IsNullOrWhiteSpace(_password) || string.IsNullOrWhiteSpace(_nickname))
+        {
+            _error = "请填写完整信息";
+            return;
+        }
+
+        _loading = true;
+        try
+        {
+            var (success, error) = await Auth.RegisterAsync(new RegisterRequestDto
+            {
+                Username = _username.Trim(),
+                Password = _password,
+                Nickname = _nickname.Trim(),
+                Remark = _remark.Trim()
+            });
+
+            if (success)
+                _success = "注册申请已提交，请等待管理员审核";
+            else
+                _error = error ?? "注册失败";
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+}

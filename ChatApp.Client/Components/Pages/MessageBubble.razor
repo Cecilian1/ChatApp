@@ -1,0 +1,49 @@
+@using ChatApp.Shared.Enums
+
+<div class="message-wrapper @SideClass" data-message-id="@Message.Id">
+    <AvatarImage Seed="@AvatarSeed" CssClass="avatar-sm" Alt="头像" />
+    <div class="message-content">
+        @if (!Message.IsMine)
+        {
+            <span class="sender-name">@Message.SenderName</span>
+        }
+        @if (Message.Type == MessageType.File)
+        {
+            <div class="file-card">
+                <div class="file-icon">📄</div>
+                <div class="file-info">
+                    <a href="@FileUrl" target="_blank" class="file-name" download>@(Message.FileName ?? "文件")</a>
+                    @if (!string.IsNullOrEmpty(FileSizeText))
+                    {
+                        <span class="file-size"> (@FileSizeText)</span>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="msg-bubble">@Message.Content</div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public MessageDto Message { get; set; } = default!;
+    [Parameter] public string UserSeed { get; set; } = "Felix";
+    [Parameter] public Func<string?, string> ResolveUrl { get; set; } = url => url ?? "";
+
+    private string SideClass => Message.IsMine ? "message-right" : "message-left";
+    private string AvatarSeed => Message.SenderAvatarSeed ?? UserSeed;
+    private string FileUrl => ResolveUrl(Message.Content);
+
+    private string FileSizeText
+    {
+        get
+        {
+            if (Message.FileSize is null or 0) return "";
+            return Message.FileSize < 1024 * 1024
+                ? $"{Message.FileSize / 1024.0:F1} KB"
+                : $"{Message.FileSize / 1024.0 / 1024.0:F1} MB";
+        }
+    }
+}

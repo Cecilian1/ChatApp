@@ -19,7 +19,7 @@ const MessageRenderer = {
         const avatar = document.createElement('img');
         avatar.className = 'avatar-sm';
         avatar.alt = '头像';
-        avatar.src = `https://api.dicebear.com/7.x/adventurer/svg?seed=${msg.senderAvatarSeed || userSeed}`;
+        avatar.src = AvatarUtil.url(msg.senderAvatarSeed || userSeed);
 
         const content = document.createElement('div');
         content.className = 'message-content';

@@ -7,6 +7,7 @@
     var messages = ViewBag.Messages as List<ChatApp.Shared.Models.MessageDto> ?? [];
     var activeSession = ViewBag.ActiveSession as ChatApp.Shared.Models.ChatSessionDto;
     var activeSessionId = ViewBag.ActiveSessionId as string ?? "";
+    var apiBase = ViewBag.ApiBaseUrl as string ?? "http://localhost:5200";
 }
 
 <!DOCTYPE html>
@@ -27,7 +28,7 @@
 
     <aside class="nav-sidebar">
         <div class="user-avatar-wrapper" title="@user.Nickname">
-            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=@user.AvatarSeed" alt="头像" class="avatar" />
+            <img src="@ChatApp.Shared.Utils.AvatarUrls.GetSvgUrl(apiBase, user.AvatarSeed)" alt="头像" class="avatar" />
             <span class="status-dot online"></span>
         </div>
         <nav class="nav-menu">
@@ -63,13 +64,13 @@
                         @if (s.UnreadCount > 0)
                         {
                             <div class="avatar-wrapper">
-                                <img src="https://api.dicebear.com/7.x/@(s.Type == ChatApp.Shared.Enums.SessionType.Group ? "identicon" : "adventurer")/svg?seed=@s.AvatarSeed" alt="" class="avatar" />
+                                <img src="@ChatApp.Shared.Utils.AvatarUrls.GetSvgUrl(apiBase, s.AvatarSeed, s.Type == ChatApp.Shared.Enums.SessionType.Group)" alt="" class="avatar" />
                                 <span class="badge">@s.UnreadCount</span>
                             </div>
                         }
                         else
                         {
-                            <img src="https://api.dicebear.com/7.x/@(s.Type == ChatApp.Shared.Enums.SessionType.Group ? "identicon" : "adventurer")/svg?seed=@s.AvatarSeed" alt="" class="avatar" />
+                            <img src="@ChatApp.Shared.Utils.AvatarUrls.GetSvgUrl(apiBase, s.AvatarSeed, s.Type == ChatApp.Shared.Enums.SessionType.Group)" alt="" class="avatar" />
                         }
                         <div class="session-info">
                             <div class="session-top">
@@ -93,7 +94,7 @@
                 @foreach (var f in friends)
                 {
                     <div class="contact-item" data-friend-id="@f.UserId" data-friend-name="@f.Nickname">
-                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=@f.AvatarSeed" alt="" class="avatar" />
+                        <img src="@ChatApp.Shared.Utils.AvatarUrls.GetSvgUrl(apiBase, f.AvatarSeed)" alt="" class="avatar" />
                         <div class="contact-info">
                             <div class="contact-top">
                                 <span class="nickname">@f.Nickname</span>
@@ -291,7 +292,7 @@
         <div class="modal-body">
             <div style="text-align:center;margin-bottom:16px;">
                 <img id="profile-avatar-preview"
-                     src="https://api.dicebear.com/7.x/adventurer/svg?seed=@user!.AvatarSeed"
+                     src="@ChatApp.Shared.Utils.AvatarUrls.GetSvgUrl(apiBase, user!.AvatarSeed)"
                      alt="头像" style="width:72px;height:72px;border-radius:50%;border:2px solid var(--border-color);" />
             </div>
             <div class="form-group">
@@ -327,6 +328,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
 <script src="~/js/api-client.js" asp-append-version="true"></script>
 <script src="~/js/signalr-client.js" asp-append-version="true"></script>
+<script src="~/js/avatar.js" asp-append-version="true"></script>
 <script src="~/js/message-renderer.js" asp-append-version="true"></script>
 <script src="~/js/file-upload.js" asp-append-version="true"></script>
 <script src="~/js/friend-manager.js" asp-append-version="true"></script>

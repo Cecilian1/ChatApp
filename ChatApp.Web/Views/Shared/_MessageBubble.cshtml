@@ -1,9 +1,9 @@
 @model ChatApp.Shared.Models.MessageDto
 @{
     var side = Model.IsMine ? "message-right" : "message-left";
-    var avatarUrl = $"https://api.dicebear.com/7.x/adventurer/svg?seed={Model.SenderAvatarSeed}";
+    var apiBase = ViewBag.ApiBaseUrl as string ?? "http://localhost:5200";
+    var avatarUrl = ChatApp.Shared.Utils.AvatarUrls.GetSvgUrl(apiBase, Model.SenderAvatarSeed);
     var isGroup = !Model.IsMine;
-
 
     string FormatFileSize(long? bytes)
     {
