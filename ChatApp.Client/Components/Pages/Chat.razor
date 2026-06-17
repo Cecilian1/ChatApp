@@ -727,9 +727,36 @@
     private async Task DeleteHistoryMessage(string messageId)
     {
         await ChatService.DeleteMessageAsync(messageId);
+
         _historyItems.RemoveAll(m => m.Id == messageId);
         if (_highlightedHistoryId == messageId)
             _highlightedHistoryId = null;
+
+        var msgToRemove = _messages.FirstOrDefault(m => m.Id == messageId);
+        if (msgToRemove is not null)
+        {
+            _messages.Remove(msgToRemove);
+        }
+
+        var session = _sessions.FirstOrDefault(s => s.Id == _activeSessionId);
+        if (session is not null)
+        {
+            var lastMsg = _messages.LastOrDefault();
+            if (lastMsg is not null)
+            {
+                session.LastMessage = lastMsg.Type == MessageType.File
+                    ? $"[文件] {lastMsg.FileName}"
+                    : lastMsg.Content;
+                session.LastMessageTime = lastMsg.SentAt;
+            }
+            else
+            {
+                session.LastMessage = null;
+                session.LastMessageTime = null;
+            }
+        }
+
+        await InvokeAsync(StateHasChanged);
     }
 
     private void InsertEmoji(string emoji) => _inputText += emoji;

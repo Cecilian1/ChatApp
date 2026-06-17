@@ -62,8 +62,24 @@ const HistoryManager = {
         detail.querySelectorAll('.btn-del-history').forEach(btn => {
             btn.addEventListener('click', async () => {
                 if (!confirm('确定删除该消息？')) return;
-                await ApiClient.del(`/api/Chat/message/${btn.dataset.id}`);
-                btn.closest('.history-row').remove();
+                const messageId = btn.dataset.id;
+                const result = await ApiClient.del(`/api/Chat/message/${messageId}`);
+                if (result && result.success !== false) {
+                    btn.closest('.history-row').remove();
+
+                    const msgElement = document.querySelector(`.message-wrapper[data-message-id="${messageId}"]`);
+                    if (msgElement) msgElement.remove();
+
+                    if (window.ChatApp && window.ChatApp._messages) {
+                        window.ChatApp._messages = window.ChatApp._messages.filter(m => m.id !== messageId);
+                    }
+
+                    HistoryManager.updateSessionPreviewAfterDelete(messageId);
+
+                    console.log('消息已删除:', messageId);
+                } else {
+                    alert('删除失败');
+                }
             });
         });
     },
@@ -72,6 +88,54 @@ const HistoryManager = {
         document.querySelectorAll('.history-row').forEach(r => {
             r.style.background = r.dataset.messageId === id ? '#f0f7ff' : '';
         });
+    },
+
+    updateSessionPreviewAfterDelete(messageId) {
+        try {
+            const sessionItem = document.querySelector('.session-item.active');
+            if (!sessionItem) return;
+
+            const sessionId = sessionItem.dataset.sessionId;
+            if (!sessionId) return;
+
+            const container = document.getElementById('message-container');
+            if (!container) return;
+
+            const remainingMessages = container.querySelectorAll('.message-wrapper');
+            let lastMsg = '';
+
+            if (remainingMessages.length > 0) {
+                const lastMsgElement = remainingMessages[remainingMessages.length - 1];
+                const lastMsgText = lastMsgElement.querySelector('.msg-bubble')?.textContent;
+                const lastFileText = lastMsgElement.querySelector('.file-name')?.textContent;
+                lastMsg = lastFileText ? `[文件] ${lastFileText}` : (lastMsgText || '');
+            }
+
+            if (!lastMsg) {
+                const sessionIdParam = sessionId;
+                const messageContainer = document.getElementById('message-container');
+                if (messageContainer) {
+                    const hasMessages = messageContainer.querySelectorAll('.message-wrapper').length > 0;
+                    if (!hasMessages) {
+                        lastMsg = '';
+                    }
+                }
+            }
+
+            const lastMsgEl = sessionItem.querySelector('.last-msg');
+            if (lastMsgEl) {
+                lastMsgEl.textContent = lastMsg || '';
+            }
+
+            if (!lastMsg) {
+                const timeEl = sessionItem.querySelector('.time');
+                if (timeEl) timeEl.textContent = '';
+            }
+
+            console.log('左侧会话列表预览已更新');
+        } catch (e) {
+            console.warn('更新会话预览失败:', e);
+        }
     }
 };
 
