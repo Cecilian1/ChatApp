@@ -8,7 +8,7 @@ public class ChatHubService : IAsyncDisposable
     private readonly UserAuthState _auth;
     private readonly ApiSettings _settings;
     private HubConnection? _connection;
-    private string? _joinedConversationId;
+    private readonly HashSet<string> _joinedConversationIds = [];
 
     public ChatHubService(UserAuthState auth, ApiSettings settings)
     {
@@ -17,6 +17,7 @@ public class ChatHubService : IAsyncDisposable
     }
 
     public event Action<MessageDto>? MessageReceived;
+    public event Action<FriendRequestDto>? FriendRequestReceived;
 
     public bool IsConnected => _connection?.State == HubConnectionState.Connected;
 
@@ -39,11 +40,11 @@ public class ChatHubService : IAsyncDisposable
             .Build();
 
         _connection.On<MessageDto>("ReceiveMessage", msg => MessageReceived?.Invoke(msg));
+        _connection.On<FriendRequestDto>("ReceiveFriendRequest", req => FriendRequestReceived?.Invoke(req));
+        _connection.Reconnected += async _ => await RejoinConversationsAsync();
 
         await _connection.StartAsync();
-
-        if (!string.IsNullOrEmpty(_joinedConversationId))
-            await JoinConversationAsync(_joinedConversationId);
+        await RejoinConversationsAsync();
     }
 
     public async Task DisconnectAsync()
@@ -52,22 +53,37 @@ public class ChatHubService : IAsyncDisposable
         await _connection.StopAsync();
         await _connection.DisposeAsync();
         _connection = null;
-        _joinedConversationId = null;
+        _joinedConversationIds.Clear();
     }
 
     public async Task JoinConversationAsync(string conversationId)
     {
-        _joinedConversationId = conversationId;
+        if (string.IsNullOrEmpty(conversationId) || _joinedConversationIds.Contains(conversationId))
+            return;
+
+        _joinedConversationIds.Add(conversationId);
         if (_connection?.State != HubConnectionState.Connected) return;
         await _connection.InvokeAsync("JoinConversation", conversationId);
     }
 
+    public async Task JoinAllConversationsAsync(IEnumerable<string> conversationIds)
+    {
+        foreach (var conversationId in conversationIds)
+            await JoinConversationAsync(conversationId);
+    }
+
     public async Task LeaveConversationAsync(string conversationId)
     {
+        _joinedConversationIds.Remove(conversationId);
         if (_connection?.State != HubConnectionState.Connected) return;
         await _connection.InvokeAsync("LeaveConversation", conversationId);
-        if (_joinedConversationId == conversationId)
-            _joinedConversationId = null;
+    }
+
+    private async Task RejoinConversationsAsync()
+    {
+        if (_connection?.State != HubConnectionState.Connected) return;
+        foreach (var conversationId in _joinedConversationIds)
+            await _connection.InvokeAsync("JoinConversation", conversationId);
     }
 
     public async ValueTask DisposeAsync()

@@ -1,7 +1,13 @@
 const MessageRenderer = {
     formatTime(dateStr) {
-        const d = new Date(dateStr);
-        return d.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+        if (!dateStr) return '';
+        const raw = typeof dateStr === 'string' ? dateStr : new Date(dateStr).toISOString();
+        const normalized = typeof raw === 'string' && !raw.endsWith('Z') && !/[+-]\d{2}:\d{2}$/.test(raw)
+            ? `${raw}Z`
+            : raw;
+        const d = new Date(normalized);
+        if (Number.isNaN(d.getTime())) return '';
+        return d.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', hour12: false });
     },
 
     formatFileSize(bytes) {

@@ -1,3 +1,4 @@
+using ChatApp.Web.Hubs;
 using ChatApp.Web.Services;
 using ChatApp.Web.Services.Http;
 
@@ -20,6 +21,8 @@ builder.Services.AddScoped<IUserAccountService, HttpUserAccountService>();
 builder.Services.AddScoped<IChatService, HttpChatService>();
 builder.Services.AddScoped<IFriendService, HttpFriendService>();
 builder.Services.AddScoped<IGroupService, HttpGroupService>();
+builder.Services.AddSingleton<ApiRealtimeBridge>();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -34,6 +37,7 @@ app.UseSession();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<WebChatHub>("/hubs/chat");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

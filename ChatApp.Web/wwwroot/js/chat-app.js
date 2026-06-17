@@ -3,10 +3,11 @@ const ChatApp = {
         activeSessionId: null,
         userId: null,
         userSeed: null,
-        mockReplyTimer: null
+        mockReplyTimer: null,
+        currentTab: 'chat'
     },
 
-    init() {
+    async init() {
         const app = document.getElementById('im-app');
         if (!app) return;
 
@@ -15,12 +16,19 @@ const ChatApp = {
         this.state.activeSessionId = app.dataset.activeSession || null;
 
         const apiBase = app.dataset.apiBase || '';
-        const jwt = app.dataset.jwt || '';
         if (apiBase && typeof AvatarUtil !== 'undefined') {
             AvatarUtil.init(apiBase);
         }
-        if (apiBase && typeof SignalRClient !== 'undefined') {
-            SignalRClient.init(apiBase, () => jwt);
+
+        ChatApp.onReceiveMessage = (msg) => this.onReceiveMessage(msg);
+        ChatApp.onReceiveFriendRequest = (req) => this.onReceiveFriendRequest(req);
+
+        if (typeof SignalRClient !== 'undefined') {
+            try {
+                await SignalRClient.init();
+            } catch {
+                // Realtime unavailable; HTTP chat still works
+            }
         }
 
         this.bindNavTabs();
@@ -38,32 +46,198 @@ const ChatApp = {
         if (this.state.activeSessionId) {
             this.updateDeleteFriendBtn();
             this.updateGroupMembersBtn();
-            SignalRClient.joinConversation(this.state.activeSessionId);
         }
 
-        window.ChatApp.onReceiveMessage = (msg) => this.onReceiveMessage(msg);
+        this.initSessionUnreadCounts();
+        this.syncRequestsBadge();
+        this.syncChatBadge();
+    },
+
+    isViewingSession(sessionId) {
+        return this.state.currentTab === 'chat'
+            && String(sessionId) === String(this.state.activeSessionId);
+    },
+
+    onReceiveFriendRequest(req) {
+        if (req.toUserId && req.toUserId !== this.state.userId) return;
+        this.appendRequestCard(req);
+        this.syncRequestsBadge();
+    },
+
+    appendRequestCard(req) {
+        const list = document.getElementById('request-list');
+        if (!list) return;
+        if (list.querySelector(`[data-request-id="${req.id}"]`)) return;
+
+        list.querySelector('.empty-state')?.remove();
+        const card = document.createElement('div');
+        card.className = 'request-card';
+        card.dataset.requestId = req.id;
+        card.innerHTML = `
+            <span><strong>${req.fromNickname}</strong> (${req.fromUsername}) 请求添加您为好友</span>
+            <div class="request-actions">
+                <button class="btn-sm btn-sm-primary btn-accept">同意</button>
+                <button class="btn-sm btn-sm-danger btn-reject">拒绝</button>
+            </div>`;
+        list.appendChild(card);
+    },
+
+    getPendingRequestCount() {
+        return document.querySelectorAll('#request-list .request-card').length;
+    },
+
+    syncRequestsBadge() {
+        const count = this.state.currentTab === 'requests' ? 0 : this.getPendingRequestCount();
+        this.updateRequestsBadge(count);
+    },
+
+    updateRequestsBadge(count) {
+        const wrapper = document.querySelector('.nav-item-wrapper[data-nav="requests"]');
+        if (!wrapper) return;
+
+        let badge = document.getElementById('requests-badge');
+        if (count <= 0) {
+            badge?.remove();
+            return;
+        }
+
+        if (!badge) {
+            badge = document.createElement('span');
+            badge.id = 'requests-badge';
+            badge.className = 'nav-badge';
+            wrapper.appendChild(badge);
+        }
+        badge.textContent = count > 99 ? '99+' : count;
+    },
+
+    getTotalUnreadCount() {
+        return [...document.querySelectorAll('.session-item')]
+            .reduce((sum, item) => sum + (parseInt(item.dataset.unreadCount || '0', 10) || 0), 0);
+    },
+
+    syncChatBadge() {
+        const count = this.getTotalUnreadCount();
+        this.updateChatBadge(count);
+    },
+
+    updateChatBadge(count) {
+        const wrapper = document.querySelector('.nav-item-wrapper[data-nav="chat"]');
+        if (!wrapper) return;
+
+        let badge = document.getElementById('chat-badge');
+        if (count <= 0) {
+            badge?.remove();
+            return;
+        }
+
+        if (!badge) {
+            badge = document.createElement('span');
+            badge.id = 'chat-badge';
+            badge.className = 'nav-badge';
+            wrapper.appendChild(badge);
+        }
+        badge.textContent = count > 99 ? '99+' : count;
+    },
+
+    async loadPendingRequests() {
+        const requests = await ApiClient.get('/api/Friend/requests/pending');
+        const list = document.getElementById('request-list');
+        if (!list) return;
+
+        if (!requests?.length) {
+            list.innerHTML = '<div class="empty-state"><span>暂无待处理的好友申请</span></div>';
+            return;
+        }
+
+        list.innerHTML = requests.map(r => `
+            <div class="request-card" data-request-id="${r.id}">
+                <span><strong>${r.fromNickname}</strong> (${r.fromUsername}) 请求添加您为好友</span>
+                <div class="request-actions">
+                    <button class="btn-sm btn-sm-primary btn-accept">同意</button>
+                    <button class="btn-sm btn-sm-danger btn-reject">拒绝</button>
+                </div>
+            </div>`).join('');
+    },
+
+    joinAllConversations() {
+        // Web hub relays API events via user group; no per-conversation join needed.
+    },
+
+    initSessionUnreadCounts() {
+        document.querySelectorAll('.session-item').forEach(item => {
+            const badge = item.querySelector('.badge');
+            item.dataset.unreadCount = badge ? (parseInt(badge.textContent, 10) || 0) : '0';
+        });
+    },
+
+    incrementSessionUnread(sessionId) {
+        const item = document.querySelector(`.session-item[data-session-id="${sessionId}"]`);
+        if (!item) {
+            this.refreshSessions().then(() => this.syncChatBadge());
+            return;
+        }
+
+        const count = (parseInt(item.dataset.unreadCount || '0', 10) || 0) + 1;
+        item.dataset.unreadCount = count;
+
+        let avatar = item.querySelector('.avatar-wrapper img, img.avatar');
+        if (!avatar) return;
+
+        let wrapper = item.querySelector('.avatar-wrapper');
+        if (!wrapper) {
+            wrapper = document.createElement('div');
+            wrapper.className = 'avatar-wrapper';
+            avatar.replaceWith(wrapper);
+            wrapper.appendChild(avatar);
+        }
+
+        let badge = wrapper.querySelector('.badge');
+        if (!badge) {
+            badge = document.createElement('span');
+            badge.className = 'badge';
+            wrapper.appendChild(badge);
+        }
+        badge.textContent = count > 99 ? '99+' : count;
+        this.syncChatBadge();
+    },
+
+    clearSessionUnread(item) {
+        item.dataset.unreadCount = '0';
+        const wrapper = item.querySelector('.avatar-wrapper');
+        if (!wrapper) return;
+        const img = wrapper.querySelector('img');
+        if (img) {
+            const clone = img.cloneNode(true);
+            wrapper.replaceWith(clone);
+        }
+        this.syncChatBadge();
     },
 
     onReceiveMessage(msg) {
         const sid = msg.sessionId || msg.conversationId;
         const preview = msg.type === 1 || msg.type === 'File' ? `[文件] ${msg.fileName}` : msg.content;
-        if (msg.senderId === this.state.userId) {
-            this.updateSessionPreview(sid, preview);
+        const sentAt = msg.sentAt || new Date().toISOString();
+
+        if (String(msg.senderId) === String(this.state.userId)) {
+            this.updateSessionPreview(sid, preview, sentAt);
             return;
         }
-        if (sid !== this.state.activeSessionId) {
-            this.updateSessionPreview(sid, preview);
-            return;
+
+        if (this.isViewingSession(sid)) {
+            MessageRenderer.appendMessage(
+                document.getElementById('message-container'), msg, this.state.userSeed);
+        } else {
+            this.incrementSessionUnread(sid);
         }
-        MessageRenderer.appendMessage(
-            document.getElementById('message-container'), msg, this.state.userSeed);
-        this.updateSessionPreview(sid, preview);
+
+        this.updateSessionPreview(sid, preview, sentAt);
     },
 
     bindNavTabs() {
         document.querySelectorAll('.nav-item[data-tab]').forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', async () => {
                 const tab = btn.dataset.tab;
+                this.state.currentTab = tab;
                 document.querySelectorAll('.nav-item[data-tab]').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
@@ -81,6 +255,9 @@ const ChatApp = {
                 }
 
                 if (tab === 'history') HistoryManager.search();
+                if (tab === 'requests') await this.loadPendingRequests();
+                this.syncRequestsBadge();
+                this.syncChatBadge();
             });
         });
     },
@@ -113,21 +290,11 @@ const ChatApp = {
         document.getElementById('chat-title').textContent = item.dataset.title;
         document.getElementById('chat-status').textContent = item.dataset.status;
 
-        // Clear unread badge
-        const wrapper = item.querySelector('.avatar-wrapper');
-        if (wrapper) {
-            const img = wrapper.querySelector('img');
-            if (img) {
-                const clone = img.cloneNode(true);
-                wrapper.replaceWith(clone);
-            }
-        }
+        this.clearSessionUnread(item);
 
         this.updateDeleteFriendBtn();
         this.updateGroupMembersBtn();
         await this.loadMessages(sessionId);
-        if (this.state.activeSessionId === sessionId)
-            SignalRClient.joinConversation(sessionId);
     },
 
     updateDeleteFriendBtn() {
@@ -306,7 +473,7 @@ const ChatApp = {
             input.value = '';
             MessageRenderer.appendMessage(
                 document.getElementById('message-container'), msg, this.state.userSeed);
-            this.updateSessionPreview(this.state.activeSessionId, content);
+            this.updateSessionPreview(this.state.activeSessionId, content, msg.sentAt);
         }
     },
     
@@ -321,15 +488,15 @@ const ChatApp = {
         if (msg) {
             MessageRenderer.appendMessage(
                 document.getElementById('message-container'), msg, this.state.userSeed);
-            this.updateSessionPreview(this.state.activeSessionId, `[文件] ${fileName}`);
+            this.updateSessionPreview(this.state.activeSessionId, `[文件] ${fileName}`, msg.sentAt);
         }
     },
 
-    updateSessionPreview(sessionId, text) {
+    updateSessionPreview(sessionId, text, sentAt) {
         const item = document.querySelector(`.session-item[data-session-id="${sessionId}"]`);
         if (item) {
             item.querySelector('.last-msg').textContent = text;
-            item.querySelector('.time').textContent = MessageRenderer.formatTime(new Date());
+            item.querySelector('.time').textContent = MessageRenderer.formatTime(sentAt || new Date().toISOString());
         }
     },
 
@@ -370,9 +537,11 @@ const ChatApp = {
             div.dataset.groupId = s.groupId || '';
             div.dataset.title = s.title;
             div.dataset.status = s.onlineStatus;
+            div.dataset.unreadCount = s.id === this.state.activeSessionId ? '0' : (s.unreadCount || 0);
+            const unread = s.id === this.state.activeSessionId ? 0 : (s.unreadCount || 0);
             div.innerHTML = `
-                ${s.unreadCount > 0
-                ? `<div class="avatar-wrapper"><img src="${AvatarUtil.url(s.avatarSeed, isGroup)}" class="avatar" /><span class="badge">${s.unreadCount}</span></div>`
+                ${unread > 0
+                ? `<div class="avatar-wrapper"><img src="${AvatarUtil.url(s.avatarSeed, isGroup)}" class="avatar" /><span class="badge">${unread > 99 ? '99+' : unread}</span></div>`
                 : `<img src="${AvatarUtil.url(s.avatarSeed, isGroup)}" class="avatar" />`}
                 <div class="session-info">
                     <div class="session-top">
@@ -383,6 +552,8 @@ const ChatApp = {
                 </div>`;
             list.appendChild(div);
         });
+        this.initSessionUnreadCounts();
+        this.syncChatBadge();
     }
 };
 

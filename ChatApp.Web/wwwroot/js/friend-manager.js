@@ -39,11 +39,13 @@ const FriendManager = {
                 await ApiClient.post('/api/Friend/accept', { requestId: id });
                 card.remove();
                 this.ensureRequestEmptyState();
+                app.syncRequestsBadge();
                 app.refreshSessions();
             } else if (e.target.classList.contains('btn-reject')) {
                 await ApiClient.post('/api/Friend/reject', { requestId: id });
                 card.remove();
                 this.ensureRequestEmptyState();
+                app.syncRequestsBadge();
             }
         });
 

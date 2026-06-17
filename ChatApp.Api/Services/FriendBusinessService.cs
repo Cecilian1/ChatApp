@@ -1,7 +1,9 @@
 using ChatApp.Api.Data;
 using ChatApp.Api.Data.Entities;
+using ChatApp.Api.Hubs;
 using ChatApp.Shared.Enums;
 using ChatApp.Shared.Models;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChatApp.Api.Services;
@@ -17,7 +19,7 @@ public interface IFriendBusinessService
     Task<(bool Success, string? Error)> RemoveFriendAsync(long userId, long friendId);
 }
 
-public class FriendBusinessService(AppDbContext db) : IFriendBusinessService
+public class FriendBusinessService(AppDbContext db, IHubContext<ChatHub> hub) : IFriendBusinessService
 {
     public async Task<List<FriendDto>> GetFriendsAsync(long userId)
     {
@@ -72,8 +74,27 @@ public class FriendBusinessService(AppDbContext db) : IFriendBusinessService
             ((r.FromUserId == userId && r.ToUserId == targetUserId) || (r.FromUserId == targetUserId && r.ToUserId == userId))))
             return (false, "已有待处理的好友申请");
 
-        db.FriendRequests.Add(new FriendRequest { FromUserId = userId, ToUserId = targetUserId, Status = FriendRequestStatus.Pending });
+        var request = new FriendRequest { FromUserId = userId, ToUserId = targetUserId, Status = FriendRequestStatus.Pending };
+        db.FriendRequests.Add(request);
         await db.SaveChangesAsync();
+
+        var from = await db.Users.FindAsync(userId);
+        if (from is not null)
+        {
+            var dto = new FriendRequestDto
+            {
+                Id = request.Id.ToString(),
+                FromUserId = userId.ToString(),
+                FromUsername = from.Username,
+                FromNickname = from.Nickname,
+                ToUserId = targetUserId.ToString(),
+                Status = FriendRequestStatus.Pending,
+                CreatedAt = request.CreatedAt
+            };
+            await hub.Clients.Group(ChatHub.UserGroupName(targetUserId))
+                .SendAsync("ReceiveFriendRequest", dto);
+        }
+
         return (true, null);
     }
 

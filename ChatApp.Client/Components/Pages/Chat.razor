@@ -12,9 +12,21 @@
             <span class="status-dot online"></span>
         </div>
         <nav class="nav-menu">
-            <button class="nav-item @TabClass("chat")" @onclick='() => SwitchTab("chat")' title="聊天">💬</button>
+            <div class="nav-item-wrapper">
+                <button class="nav-item @TabClass("chat")" @onclick='() => SwitchTab("chat")' title="聊天">💬</button>
+                @if (TotalUnreadCount > 0)
+                {
+                    <span class="nav-badge">@(TotalUnreadCount > 99 ? "99+" : TotalUnreadCount)</span>
+                }
+            </div>
             <button class="nav-item @TabClass("contacts")" @onclick='() => SwitchTab("contacts")' title="通讯录">👥</button>
-            <button class="nav-item @TabClass("requests")" @onclick='() => SwitchTab("requests")' title="好友申请">📩</button>
+            <div class="nav-item-wrapper">
+                <button class="nav-item @TabClass("requests")" @onclick='() => SwitchTab("requests")' title="好友申请">📩</button>
+                @if (_tab != "requests" && _pendingRequests.Count > 0)
+                {
+                    <span class="nav-badge">@(_pendingRequests.Count > 99 ? "99+" : _pendingRequests.Count)</span>
+                }
+            </div>
             <button class="nav-item @TabClass("history")" @onclick='() => SwitchTab("history")' title="历史记录">⏳</button>
         </nav>
         <div class="nav-bottom">
@@ -470,34 +482,38 @@
             ? _friends
             : _friends.Where(f => f.Nickname.Contains(_contactSearch, StringComparison.OrdinalIgnoreCase));
 
+    private int TotalUnreadCount => _sessions.Sum(s => s.UnreadCount);
+
     protected override async Task OnInitializedAsync()
     {
         _user = Auth.CurrentUser;
         _profileNickname = _user?.Nickname ?? "";
         _profileSeed = _user?.AvatarSeed ?? "Felix";
         Hub.MessageReceived += OnMessageReceived;
+        Hub.FriendRequestReceived += OnFriendRequestReceived;
         await LoadInitialDataAsync();
     }
 
     private async Task LoadInitialDataAsync()
     {
+        if (!Hub.IsConnected)
+            await Hub.ConnectAsync();
+
         _sessions = await ChatService.GetSessionsAsync();
         _friends = await ChatService.GetFriendsAsync();
         _pendingRequests = await ChatService.GetPendingRequestsAsync();
+        await Hub.JoinAllConversationsAsync(_sessions.Select(s => s.Id));
+
         if (_sessions.Count > 0 && _activeSessionId is null)
             await SelectSession(_sessions[0]);
     }
 
     private async Task SelectSession(ChatSessionDto session)
     {
-        if (_activeSessionId is not null && _activeSessionId != session.Id)
-            await Hub.LeaveConversationAsync(_activeSessionId);
-
         _activeSessionId = session.Id;
         _activeSession = session;
         session.UnreadCount = 0;
         _messages = await ChatService.GetMessagesAsync(session.Id);
-        await Hub.JoinConversationAsync(session.Id);
         await InvokeAsync(StateHasChanged);
     }
 
@@ -531,37 +547,51 @@
         }
     }
 
-    private void OnMessageReceived(MessageDto msg)
+    private void OnFriendRequestReceived(FriendRequestDto req)
+    {
+        if (req.ToUserId != _user?.Id) return;
+        if (_pendingRequests.Any(r => r.Id == req.Id)) return;
+        _pendingRequests.Insert(0, req);
+        InvokeAsync(StateHasChanged);
+    }
+
+    private bool IsViewingSession(string sessionId) =>
+        _tab == "chat" && sessionId == _activeSessionId;
+
+    private async void OnMessageReceived(MessageDto msg)
     {
         var sid = msg.SessionId;
         var preview = msg.Type == MessageType.File ? $"[文件] {msg.FileName}" : msg.Content;
 
         if (msg.SenderId == _user?.Id)
         {
-            UpdateSessionPreview(sid, preview);
+            UpdateSessionPreview(sid, preview, msg.SentAt);
             return;
         }
 
-        if (sid != _activeSessionId)
+        if (IsViewingSession(sid))
+        {
+            _messages.Add(msg);
+        }
+        else
         {
             var session = _sessions.FirstOrDefault(s => s.Id == sid);
-            if (session is not null) session.UnreadCount++;
-            UpdateSessionPreview(sid, preview);
-            InvokeAsync(StateHasChanged);
-            return;
+            if (session is not null)
+                session.UnreadCount++;
+            else
+                await RefreshSessionsAsync();
         }
 
-        _messages.Add(msg);
-        UpdateSessionPreview(sid, preview);
-        InvokeAsync(StateHasChanged);
+        UpdateSessionPreview(sid, preview, msg.SentAt);
+        await InvokeAsync(StateHasChanged);
     }
 
-    private void UpdateSessionPreview(string sessionId, string text)
+    private void UpdateSessionPreview(string sessionId, string text, DateTime? sentAt = null)
     {
         var session = _sessions.FirstOrDefault(s => s.Id == sessionId);
         if (session is null) return;
         session.LastMessage = text;
-        session.LastMessageTime = DateTime.Now;
+        session.LastMessageTime = sentAt?.ToLocalTime() ?? DateTime.Now;
     }
 
     private async Task SwitchTab(string tab)
@@ -602,6 +632,12 @@
         else _selectedMembers.Remove(userId);
     }
 
+    private async Task RefreshSessionsAsync()
+    {
+        _sessions = await ChatService.GetSessionsAsync();
+        await Hub.JoinAllConversationsAsync(_sessions.Select(s => s.Id));
+    }
+
     private async Task CreateGroup()
     {
         if (string.IsNullOrWhiteSpace(_groupName))
@@ -613,7 +649,7 @@
         if (success)
         {
             _showAdd = false;
-            _sessions = await ChatService.GetSessionsAsync();
+            await RefreshSessionsAsync();
         }
         else
         {
@@ -626,7 +662,7 @@
         await ChatService.AcceptRequestAsync(requestId);
         _pendingRequests = await ChatService.GetPendingRequestsAsync();
         _friends = await ChatService.GetFriendsAsync();
-        _sessions = await ChatService.GetSessionsAsync();
+        await RefreshSessionsAsync();
     }
 
     private async Task RejectRequest(string requestId)
@@ -657,7 +693,7 @@
         await ChatService.RemoveFriendAsync(_deleteFriendId);
         _showDeleteFriend = false;
         _friends = await ChatService.GetFriendsAsync();
-        _sessions = await ChatService.GetSessionsAsync();
+        await RefreshSessionsAsync();
         if (_activeSession?.TargetUserId == _deleteFriendId)
         {
             _activeSession = null;
@@ -732,5 +768,9 @@
     private static string FormatTime(DateTime time) => time.ToString("HH:mm");
     private static string FormatDateTime(DateTime time) => time.ToLocalTime().ToString("yyyy/M/d HH:mm:ss");
 
-    public void Dispose() => Hub.MessageReceived -= OnMessageReceived;
+    public void Dispose()
+    {
+        Hub.MessageReceived -= OnMessageReceived;
+        Hub.FriendRequestReceived -= OnFriendRequestReceived;
+    }
 }

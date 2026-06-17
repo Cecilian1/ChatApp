@@ -17,6 +17,7 @@ public interface IChatBusinessService
     Task<bool> DeleteMessageAsync(long userId, long messageId);
     Task<bool> DeleteMessagesAsync(long userId, IEnumerable<long> messageIds);
     Task<bool> IsMemberAsync(long userId, long conversationId);
+    Task<List<long>> GetMemberUserIdsAsync(long conversationId);
     Task MarkReadAsync(long userId, long conversationId, long messageId);
 }
 
@@ -169,6 +170,16 @@ public class ChatBusinessService(AppDbContext db) : IChatBusinessService
         if (conv.Type == SessionType.Group)
             return conv.Group!.Members.Any(m => m.UserId == userId);
         return conv.UserAId == userId || conv.UserBId == userId;
+    }
+
+    public async Task<List<long>> GetMemberUserIdsAsync(long conversationId)
+    {
+        var conv = await db.Conversations.Include(c => c.Group!).ThenInclude(g => g.Members)
+            .FirstOrDefaultAsync(c => c.Id == conversationId);
+        if (conv is null) return [];
+        if (conv.Type == SessionType.Group)
+            return conv.Group!.Members.Select(m => m.UserId).ToList();
+        return [conv.UserAId!.Value, conv.UserBId!.Value];
     }
 
     public async Task MarkReadAsync(long userId, long conversationId, long messageId)

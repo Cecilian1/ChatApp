@@ -126,6 +126,28 @@ body.auth-page {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+.nav-item-wrapper {
+    position: relative;
+}
+
+.nav-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: #e74c3c;
+    color: white;
+    font-size: 10px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    pointer-events: none;
+}
+
 .list-sidebar {
     width: 280px;
     background-color: var(--bg-list);
@@ -685,7 +707,7 @@ body.auth-page {
     position: absolute;
     bottom: 100%;
     left: 0;
-    background: var(--bg-main);
+    background: var(--bg-chat);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 8px;
@@ -709,7 +731,7 @@ body.auth-page {
     cursor: pointer;
     user-select: none;
 }
-.emoji-item:hover { background: var(--bg-hover); }
+.emoji-item:hover { background: #edf0f5; }
 
 /* Group member list */
 .member-item {

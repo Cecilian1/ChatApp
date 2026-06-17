@@ -32,9 +32,24 @@
             <span class="status-dot online"></span>
         </div>
         <nav class="nav-menu">
-            <button class="nav-item active" data-tab="chat" title="聊天">💬</button>
+            <div class="nav-item-wrapper" data-nav="chat">
+                <button class="nav-item active" data-tab="chat" title="聊天">💬</button>
+                @{
+                    var chatUnreadTotal = sessions.Sum(s => s.UnreadCount);
+                }
+                @if (chatUnreadTotal > 0)
+                {
+                    <span class="nav-badge" id="chat-badge">@(chatUnreadTotal > 99 ? "99+" : chatUnreadTotal)</span>
+                }
+            </div>
             <button class="nav-item" data-tab="contacts" title="通讯录">👥</button>
-            <button class="nav-item" data-tab="requests" title="好友申请">📩</button>
+            <div class="nav-item-wrapper" data-nav="requests">
+                <button class="nav-item" data-tab="requests" title="好友申请">📩</button>
+                @if (pendingRequests.Count > 0)
+                {
+                    <span class="nav-badge" id="requests-badge">@(pendingRequests.Count > 99 ? "99+" : pendingRequests.Count)</span>
+                }
+            </div>
             <button class="nav-item" data-tab="history" title="历史记录">⏳</button>
         </nav>
         <div class="nav-bottom">
@@ -75,7 +90,7 @@
                         <div class="session-info">
                             <div class="session-top">
                                 <span class="nickname">@s.Title</span>
-                                <span class="time">@(s.LastMessageTime?.ToString("HH:mm") ?? "")</span>
+                                <span class="time">@(s.LastMessageTime.HasValue ? s.LastMessageTime.Value.ToLocalTime().ToString("HH:mm") : "")</span>
                             </div>
                             <div class="session-bottom">
                                 <span class="last-msg">@s.LastMessage</span>

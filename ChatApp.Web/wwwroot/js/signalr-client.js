@@ -1,40 +1,32 @@
-// SignalR client for real-time chat
+// SignalR client — connects to same-origin Web hub (relayed to API)
 const SignalRClient = {
     connection: null,
-    apiBase: '',
+    joinedConversations: new Set(),
 
-    init(apiBase, getToken) {
-        this.apiBase = apiBase.replace(/\/$/, '');
-        if (typeof signalR === 'undefined') return;
+    init() {
+        if (typeof signalR === 'undefined') return Promise.resolve();
 
         this.connection = new signalR.HubConnectionBuilder()
-            .withUrl(`${this.apiBase}/hubs/chat`, {
-                accessTokenFactory: () => getToken() || ''
-            })
+            .withUrl('/hubs/chat')
             .withAutomaticReconnect()
             .build();
 
         this.connection.on('ReceiveMessage', msg => {
-            if (window.ChatApp?.onReceiveMessage) {
-                window.ChatApp.onReceiveMessage(msg);
+            if (typeof ChatApp.onReceiveMessage === 'function') {
+                ChatApp.onReceiveMessage(msg);
             }
         });
 
-        this.connection.start().catch(err => console.warn('SignalR connect failed:', err));
-    },
+        this.connection.on('ReceiveFriendRequest', req => {
+            if (typeof ChatApp.onReceiveFriendRequest === 'function') {
+                ChatApp.onReceiveFriendRequest(req);
+            }
+        });
 
-    async joinConversation(conversationId) {
-        if (!this.connection || this.connection.state !== signalR.HubConnectionState.Connected) return;
-        try {
-            await this.connection.invoke('JoinConversation', conversationId);
-        } catch (e) { console.warn(e); }
-    },
-
-    async leaveConversation(conversationId) {
-        if (!this.connection || this.connection.state !== signalR.HubConnectionState.Connected) return;
-        try {
-            await this.connection.invoke('LeaveConversation', conversationId);
-        } catch (e) { console.warn(e); }
+        return this.connection.start().catch(err => {
+            console.warn('SignalR connect failed:', err);
+            throw err;
+        });
     }
 };
 

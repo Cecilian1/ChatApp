@@ -48,17 +48,31 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             OnMessageReceived = context =>
             {
-                var accessToken = context.Request.Query["access_token"];
                 var path = context.HttpContext.Request.Path;
-                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs/chat"))
-                    context.Token = accessToken;
+                if (!path.StartsWithSegments("/hubs/chat"))
+                    return Task.CompletedTask;
+
+                var token = context.Request.Query["access_token"].FirstOrDefault();
+                if (string.IsNullOrEmpty(token))
+                {
+                    var authHeader = context.Request.Headers.Authorization.ToString();
+                    if (authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                        token = authHeader["Bearer ".Length..].Trim();
+                }
+
+                if (!string.IsNullOrEmpty(token))
+                    context.Token = token;
                 return Task.CompletedTask;
             }
         };
     });
 
 builder.Services.AddAuthorization();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+    });
 builder.Services.AddSignalR();
 
 builder.Services.AddScoped<IAuthService, AuthService>();

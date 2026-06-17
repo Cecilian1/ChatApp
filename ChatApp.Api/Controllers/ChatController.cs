@@ -44,7 +44,7 @@ public class ChatController(IChatBusinessService chat, IHubContext<ChatHub> hubC
             return BadRequest(ApiResult.Fail("无效会话"));
         var msg = await chat.SendTextAsync(UserId, convId, request.Content);
         if (msg is null) return BadRequest(ApiResult.Fail("发送失败"));
-        await hubContext.Clients.Group(ChatHub.GroupName(convId)).SendAsync("ReceiveMessage", AsBroadcast(msg));
+        await ChatHub.NotifyMembersAsync(hubContext, chat, convId, UserId, AsBroadcast(msg));
         return Ok(msg);
     }
 
@@ -55,7 +55,7 @@ public class ChatController(IChatBusinessService chat, IHubContext<ChatHub> hubC
             return BadRequest(ApiResult.Fail("无效会话"));
         var msg = await chat.SendFileAsync(UserId, convId, request.FileName, request.Content, request.FileSizeBytes);
         if (msg is null) return BadRequest(ApiResult.Fail("发送失败"));
-        await hubContext.Clients.Group(ChatHub.GroupName(convId)).SendAsync("ReceiveMessage", AsBroadcast(msg));
+        await ChatHub.NotifyMembersAsync(hubContext, chat, convId, UserId, AsBroadcast(msg));
         return Ok(msg);
     }
 
